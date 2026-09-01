@@ -2,444 +2,1217 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dorm Manager - บ้านพลอยระย้า</title>
 
 <style>
+:root{
+    --orange:#ff7a00;
+    --orange2:#ff9b3f;
+    --orange-soft:#fff1e5;
+    --bg:#f5f6f8;
+    --text:#202124;
+    --muted:#8b8d93;
+    --green:#22a45d;
+    --green-soft:#e8f8ef;
+    --yellow:#c78300;
+    --yellow-soft:#fff4d9;
+    --red:#df4d4d;
+    --red-soft:#fff0f0;
+    --blue:#3677e8;
+    --blue-soft:#edf4ff;
+    --border:#ececef;
+}
+
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#fff7f0;
-    color:#333;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans Thai",
+        sans-serif;
+    background:#dedede;
+    color:var(--text);
 }
 
-.app{
-    max-width:500px;
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.phone{
+    width:100%;
+    max-width:430px;
+    min-height:100dvh;
     margin:auto;
-    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    overflow:hidden;
+}
+
+@media(min-width:600px){
+    body{
+        padding:20px;
+    }
+
+    .phone{
+        min-height:900px;
+        height:900px;
+        border-radius:38px;
+        box-shadow:0 20px 70px rgba(0,0,0,.20);
+    }
+}
+
+.screen{
+    min-height:100dvh;
+    padding-bottom:95px;
+}
+
+@media(min-width:600px){
+    .screen{
+        min-height:900px;
+    }
+}
+
+/* =========================
+COMMON
+========================= */
+
+.btn{
+    border:0;
+    border-radius:16px;
+    padding:13px 16px;
+    font-weight:700;
+}
+
+.btn-primary{
+    background:var(--orange);
+    color:#fff;
+}
+
+.btn-light{
+    background:var(--orange-soft);
+    color:var(--orange);
+}
+
+.btn-green{
+    background:var(--green-soft);
+    color:var(--green);
+}
+
+.btn-white{
     background:#fff;
-    padding-bottom:90px;
+    border:1px solid var(--border);
+    color:var(--text);
 }
 
-/* HEADER */
-.header{
-    background:#ff8c42;
-    color:white;
-    padding:20px;
-    border-radius:0 0 25px 25px;
+.btn-red{
+    background:var(--red-soft);
+    color:var(--red);
 }
 
-.header-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.btn-blue{
+    background:var(--blue-soft);
+    color:var(--blue);
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.logo-icon{
-    width:45px;
-    height:45px;
-    background:white;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-}
-
-.logo h2{
-    margin:0;
-}
-
-.logo small{
-    opacity:.9;
-}
-
-.notification{
-    border:0;
-    background:white;
-    border-radius:12px;
-    padding:10px;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.greeting{
-    margin-top:25px;
-}
-
-.greeting p{
-    margin:0;
-}
-
-.greeting h1{
-    margin:5px 0 0;
-    font-size:24px;
-}
-
-/* PAGE */
-.page{
-    display:none;
-    padding:20px;
-}
-
-.page.active{
-    display:block;
-}
-
-.page-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.page-header h2{
-    margin:0;
-}
-
-.back{
-    border:0;
-    background:#fff0e5;
-    width:40px;
-    height:40px;
-    border-radius:12px;
-    font-size:28px;
-    cursor:pointer;
-}
-
-/* BUTTON */
-.pay-button,
-.save{
-    width:100%;
-    border:0;
-    background:#ff8c42;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    font-size:16px;
-    cursor:pointer;
-}
-
-.cancel{
-    width:100%;
-    border:0;
-    background:#eee;
-    padding:14px;
-    border-radius:12px;
-    margin-top:8px;
-    cursor:pointer;
-}
-
-/* REPAIR CARD */
-.repair-card{
-    background:white;
-    border-radius:18px;
-    padding:16px;
-    margin-bottom:15px;
-    box-shadow:0 3px 12px #ddd;
-    border-left:5px solid #ff8c42;
-}
-
-.repair-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.repair-room{
-    font-size:18px;
-    font-weight:bold;
-}
-
-.repair-name{
-    margin:10px 0;
-    font-size:17px;
-}
-
-.repair-detail{
-    color:#777;
-    font-size:14px;
-}
-
-.repair-cost{
-    background:#fff7f0;
-    padding:10px;
-    border-radius:10px;
-    margin:10px 0;
-}
-
-.repair-total{
-    font-weight:bold;
-    color:#e53935;
-}
-
-/* STATUS */
-.status{
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.pending{
-    background:#ffe0e0;
-    color:#e53935;
-}
-
-.working{
-    background:#fff0c2;
-    color:#c77700;
-}
-
-.done{
-    background:#d9f7df;
-    color:#16843a;
-}
-
-/* ACTION BUTTONS */
-.actions{
-    display:flex;
-    gap:8px;
-}
-
-.actions button{
-    flex:1;
-    border:0;
-    padding:10px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-.work-btn{
-    background:#fff0c2;
-}
-
-.done-btn{
-    background:#d9f7df;
-    color:#16843a;
-}
-
-.delete-btn{
-    background:#ffe0e0;
-    color:#e53935;
-}
-
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal.active{
-    display:flex;
-}
-
-.modal-box{
-    background:white;
-    width:100%;
-    max-width:450px;
-    border-radius:20px;
-    padding:20px;
-}
-
-.modal-box h2{
-    margin-top:0;
+.card{
+    background:#fff;
+    border-radius:22px;
+    border:1px solid var(--border);
+    padding:17px;
+    box-shadow:0 5px 20px rgba(0,0,0,.03);
 }
 
 .input{
     width:100%;
-    padding:13px;
-    margin-bottom:12px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    font-size:15px;
-}
-
-/* HISTORY */
-.history-card{
-    background:white;
-    padding:15px;
+    border:1px solid #e3e3e7;
+    background:#fafafa;
+    padding:14px;
     border-radius:15px;
-    margin-bottom:10px;
-    box-shadow:0 2px 8px #ddd;
+    outline:none;
 }
 
-.empty{
-    text-align:center;
-    color:#999;
-    padding:40px 10px;
+.input:focus{
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(255,122,0,.1);
 }
 
-/* NAV */
-.nav{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:100%;
-    max-width:500px;
-    background:white;
-    border-top:1px solid #eee;
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.section-title{
     display:flex;
-    justify-content:space-around;
-    padding:8px 5px;
+    justify-content:space-between;
+    align-items:center;
+    margin:22px 0 12px;
+}
+
+.section-title h2{
+    font-size:18px;
+}
+
+.section-title span{
+    color:var(--orange);
+    font-size:13px;
+}
+
+/* =========================
+LOGIN
+========================= */
+
+.login-screen{
+    min-height:100dvh;
+    padding:28px 22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:
+        linear-gradient(
+            160deg,
+            #ff7600 0%,
+            #ff9d3f 45%,
+            #fff2e6 45%,
+            #fff 100%
+        );
+}
+
+@media(min-width:600px){
+    .login-screen{
+        min-height:900px;
+    }
+}
+
+.login-brand{
+    color:#fff;
+    margin-bottom:70px;
+}
+
+.logo{
+    width:76px;
+    height:76px;
+    border-radius:25px;
+    background:#fff;
+    display:grid;
+    place-items:center;
+    font-size:38px;
+    margin-bottom:15px;
+    box-shadow:0 12px 25px rgba(120,55,0,.17);
+}
+
+.login-brand h1{
+    font-size:29px;
+}
+
+.login-brand p{
+    opacity:.9;
+    margin-top:4px;
+}
+
+.login-card{
+    background:#fff;
+    border-radius:28px;
+    padding:24px;
+    box-shadow:0 18px 45px rgba(0,0,0,.10);
+}
+
+.login-card h2{
+    margin-bottom:5px;
+}
+
+.login-card > p{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:22px;
+}
+
+.login-button{
+    width:100%;
+    margin-top:5px;
+    padding:15px;
+    border-radius:16px;
+    border:0;
+    color:#fff;
+    background:linear-gradient(135deg,var(--orange),var(--orange2));
+    font-weight:800;
+}
+
+.demo{
+    margin-top:18px;
+    background:#fafafa;
+    border-radius:15px;
+    padding:12px;
+    color:#777;
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* =========================
+HEADER
+========================= */
+
+.header{
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange2)
+        );
+    color:#fff;
+    padding:
+        calc(18px + env(safe-area-inset-top))
+        18px
+        25px;
+    border-radius:0 0 30px 30px;
+}
+
+.header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header small{
+    opacity:.85;
+}
+
+.header h1{
+    font-size:23px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:rgba(255,255,255,.22);
+    display:grid;
+    place-items:center;
+    font-size:21px;
+}
+
+.logout{
+    margin-top:18px;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.25);
+    padding:9px 13px;
+    border-radius:14px;
+}
+
+.content{
+    padding:18px;
+}
+
+/* =========================
+STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:11px;
+    margin-top:-5px;
+}
+
+.stat-card{
+    background:#fff;
+    border-radius:20px;
+    padding:15px;
+    border:1px solid var(--border);
+}
+
+.stat-icon{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.stat-number{
+    font-size:22px;
+    font-weight:900;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:2px;
+}
+
+/* =========================
+ROOM
+========================= */
+
+.room-list{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.room-card{
+    background:#fff;
+    padding:16px;
+    border-radius:22px;
+    border:1px solid var(--border);
+}
+
+.room-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.room-left{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.room-icon{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    background:var(--orange-soft);
+    display:grid;
+    place-items:center;
+    font-size:24px;
+}
+
+.room-name{
+    font-size:18px;
+    font-weight:800;
+}
+
+.tenant-name{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.badge{
+    padding:6px 9px;
+    border-radius:30px;
+    font-size:11px;
+    font-weight:700;
+    display:inline-block;
+}
+
+.badge-paid{
+    background:var(--green-soft);
+    color:var(--green);
+}
+
+.badge-pending{
+    background:var(--yellow-soft);
+    color:var(--yellow);
+}
+
+.badge-repair{
+    background:var(--blue-soft);
+    color:var(--blue);
+}
+
+.badge-done{
+    background:var(--green-soft);
+    color:var(--green);
+}
+
+.cost-box{
+    background:#fafafa;
+    border-radius:17px;
+    padding:12px;
+    margin-top:13px;
+}
+
+.cost-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin:7px 0;
+    font-size:13px;
+}
+
+.cost-total{
+    display:flex;
+    justify-content:space-between;
+    border-top:1px dashed #ddd;
+    padding-top:10px;
+    margin-top:10px;
+    font-weight:900;
+}
+
+.cost-total strong{
+    color:var(--orange);
+}
+
+.room-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:12px;
+}
+
+/* =========================
+QUICK ACTION
+========================= */
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.quick-button{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:14px 6px;
+    text-align:center;
+}
+
+.quick-button .icon{
+    width:42px;
+    height:42px;
+    background:var(--orange-soft);
+    border-radius:14px;
+    display:grid;
+    place-items:center;
+    margin:auto auto 7px;
+    font-size:20px;
+}
+
+.quick-button span{
+    font-size:11px;
+    font-weight:700;
+}
+
+/* =========================
+TENANT
+========================= */
+
+.tenant-balance{
+    color:#fff;
+    background:
+        linear-gradient(
+            135deg,
+            #28282b,
+            #44444a
+        );
+    border-radius:25px;
+    padding:21px;
+    margin-top:-5px;
+    box-shadow:0 15px 30px rgba(0,0,0,.14);
+}
+
+.tenant-balance small{
+    opacity:.75;
+}
+
+.balance-value{
+    font-size:35px;
+    font-weight:900;
+    margin:5px 0 7px;
+}
+
+.balance-status{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:30px;
+    background:rgba(255,255,255,.13);
+    font-size:12px;
+}
+
+.info-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:16px;
+    margin-bottom:13px;
+}
+
+.info-card h3{
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+/* =========================
+REPAIR
+========================= */
+
+.repair-item{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid #f0f0f0;
+}
+
+.repair-item:last-child{
+    border-bottom:0;
+}
+
+.repair-icon{
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    background:#eef3ff;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+}
+
+.repair-detail{
+    flex:1;
+}
+
+.repair-title{
+    font-weight:800;
+}
+
+.repair-small{
+    color:#888;
+    font-size:12px;
+    margin-top:3px;
+}
+
+/* =========================
+BOTTOM NAV
+========================= */
+
+.bottom-nav{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:
+        calc(75px + env(safe-area-inset-bottom));
+    background:rgba(255,255,255,.97);
+    border-top:1px solid #eee;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    padding:8px 6px env(safe-area-inset-bottom);
+    z-index:20;
 }
 
 .nav-btn{
     border:0;
     background:none;
-    color:#777;
-    font-size:11px;
-    cursor:pointer;
+    color:#9a9aa0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    font-size:10px;
 }
 
-.nav-icon{
-    display:block;
+.nav-btn .icon{
     font-size:21px;
-    margin-bottom:3px;
 }
 
 .nav-btn.active{
-    color:#ff8c42;
-    font-weight:bold;
+    color:var(--orange);
 }
 
-/* SUMMARY */
-.summary-box{
-    background:white;
-    padding:18px;
-    border-radius:16px;
+/* =========================
+OVERLAY / SHEET
+========================= */
+
+.overlay{
+    position:absolute;
+    inset:0;
+    z-index:100;
+    background:rgba(0,0,0,.45);
+    display:none;
+    align-items:flex-end;
+}
+
+.overlay.show{
+    display:flex;
+}
+
+.sheet{
+    width:100%;
+    background:#fff;
+    border-radius:29px 29px 0 0;
+    padding:13px 19px 28px;
+    max-height:88%;
+    overflow:auto;
+    animation:up .25s ease;
+}
+
+@keyframes up{
+    from{
+        transform:translateY(100%);
+    }
+    to{
+        transform:translateY(0);
+    }
+}
+
+.handle{
+    width:43px;
+    height:5px;
+    background:#ddd;
+    border-radius:20px;
+    margin:0 auto 17px;
+}
+
+.sheet-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:17px;
+}
+
+.sheet-head h2{
+    font-size:19px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border:0;
+    border-radius:50%;
+    background:#f0f0f0;
+}
+
+.sheet-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:17px;
+}
+
+.calculation{
+    background:var(--orange-soft);
+    border-radius:18px;
+    padding:15px;
+    margin-top:12px;
+}
+
+.calculation strong{
+    display:block;
+    font-size:27px;
+    color:var(--orange);
+    margin-top:4px;
+}
+
+/* =========================
+BILL
+========================= */
+
+.bill{
+    border:1px solid #eee;
+    border-radius:20px;
+    padding:17px;
+}
+
+.bill-title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.bill-title h2{
+    color:var(--orange);
+}
+
+.bill-number{
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.bill-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin:9px 0;
+    font-size:14px;
+}
+
+.bill-total{
+    display:flex;
+    justify-content:space-between;
+    border-top:2px solid #222;
+    padding-top:12px;
+    margin-top:12px;
+    font-size:19px;
+    font-weight:900;
+}
+
+.bill-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:15px;
+}
+
+/* =========================
+MONTHLY
+========================= */
+
+.month-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:16px;
     margin-bottom:12px;
-    box-shadow:0 2px 8px #ddd;
 }
 
-.summary-number{
-    font-size:25px;
-    font-weight:bold;
+.month-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:800;
 }
 
-.orange{
-    color:#ff8c42;
+.month-income{
+    color:var(--green);
+    font-size:18px;
+    font-weight:900;
 }
 
-.red{
-    color:#e53935;
+.month-expense{
+    color:var(--red);
+    font-size:18px;
+    font-weight:900;
 }
 
-.green{
-    color:#16843a;
+.month-profit{
+    color:var(--orange);
+    font-size:20px;
+    font-weight:900;
+}
+
+/* =========================
+TOAST
+========================= */
+
+.toast{
+    position:absolute;
+    bottom:95px;
+    left:50%;
+    transform:translate(-50%,20px);
+    background:#252525;
+    color:#fff;
+    padding:11px 16px;
+    border-radius:40px;
+    font-size:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
+    z-index:300;
+    white-space:nowrap;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* =========================
+PRINT
+========================= */
+
+@media print{
+    body{
+        background:#fff;
+    }
+
+    .phone{
+        max-width:none;
+        box-shadow:none;
+    }
+
+    .header,
+    .bottom-nav,
+    .room-actions,
+    .toast,
+    .close,
+    .handle{
+        display:none !important;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="phone">
 
-<!-- ================= HOME ================= -->
+<!-- =====================================================
+LOGIN
+===================================================== -->
 
-<div id="home" class="page active">
+<section id="loginScreen" class="login-screen">
 
-    <div class="header">
+    <div class="login-brand">
 
-        <div class="header-top">
+        <div class="logo">🏠</div>
 
-            <div class="logo">
+        <h1>บ้านพลอยระย้า</h1>
 
-                <div class="logo-icon">🏠</div>
+        <p>Dorm Manager</p>
 
-                <div>
-                    <h2>บ้านพลอยระย้า</h2>
-                    <small>Dorm Manager</small>
-                </div>
+    </div>
+
+    <div class="login-card">
+
+        <h2>เข้าสู่ระบบ</h2>
+
+        <p>
+            สำหรับผู้ดูแลและผู้เช่าห้องพัก
+        </p>
+
+        <form onsubmit="login(event)">
+
+            <div class="form-group">
+
+                <label>
+                    Username / เลขห้อง
+                </label>
+
+                <input
+                    id="username"
+                    class="input"
+                    placeholder="เช่น admin หรือ 205"
+                    required>
 
             </div>
 
-            <button class="notification" onclick="showNotification()">
-                🔔
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    class="input"
+                    placeholder="••••••••"
+                    required>
+
+            </div>
+
+            <button
+                class="login-button"
+                type="submit">
+
+                เข้าสู่ระบบ
+
+            </button>
+
+        </form>
+
+        <div class="demo">
+
+            <b>บัญชีทดสอบ</b><br>
+
+            Admin:
+            admin / 1234
+
+            <br>
+
+            ห้อง:
+            201 / 2010
+
+            <br>
+
+            ห้อง:
+            205 / 2050
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+ADMIN
+===================================================== -->
+
+<section id="adminScreen" class="screen hidden">
+
+    <header class="header">
+
+        <div class="header-row">
+
+            <div>
+
+                <small>
+                    สวัสดี 👋
+                </small>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+            </div>
+
+            <div class="avatar">
+                👩🏻‍💼
+            </div>
+
+        </div>
+
+        <button
+            class="logout"
+            onclick="logout()">
+
+            🚪 ออกจากระบบ
+
+        </button>
+
+    </header>
+
+    <main
+        id="adminContent"
+        class="content">
+    </main>
+
+    <nav class="bottom-nav">
+
+        <button
+            class="nav-btn active"
+            onclick="showAdminPage('home',this)">
+
+            <div class="icon">🏠</div>
+            หน้าหลัก
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showAdminPage('rooms',this)">
+
+            <div class="icon">🛏️</div>
+            ห้องพัก
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showAdminPage('bills',this)">
+
+            <div class="icon">🧾</div>
+            บิล
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showAdminPage('profile',this)">
+
+            <div class="icon">☰</div>
+            เมนู
+
+        </button>
+
+    </nav>
+
+</section>
+
+
+<!-- =====================================================
+TENANT
+===================================================== -->
+
+<section id="tenantScreen" class="screen hidden">
+
+    <header class="header">
+
+        <div class="header-row">
+
+            <div>
+
+                <small id="tenantHello">
+                    สวัสดี
+                </small>
+
+                <h1 id="tenantRoomTitle">
+                    ห้อง
+                </h1>
+
+            </div>
+
+            <div class="avatar">
+                👤
+            </div>
+
+        </div>
+
+    </header>
+
+    <main
+        id="tenantContent"
+        class="content">
+    </main>
+
+    <nav class="bottom-nav">
+
+        <button
+            class="nav-btn active"
+            onclick="showTenantPage('home',this)">
+
+            <div class="icon">🏠</div>
+            หน้าหลัก
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showTenantPage('bill',this)">
+
+            <div class="icon">🧾</div>
+            บิล
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showTenantPage('repair',this)">
+
+            <div class="icon">🔧</div>
+            แจ้งซ่อม
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showTenantPage('profile',this)">
+
+            <div class="icon">👤</div>
+            บัญชี
+
+        </button>
+
+    </nav>
+
+</section>
+
+
+<!-- =====================================================
+ELECTRIC SHEET
+===================================================== -->
+
+<div id="electricSheet" class="overlay">
+
+    <div class="sheet">
+
+        <div class="handle"></div>
+
+        <div class="sheet-head">
+
+            <h2>⚡ กรอกมิเตอร์ไฟ</h2>
+
+            <button
+                class="close"
+                onclick="closeSheet('electricSheet')">
+                ✕
             </button>
 
         </div>
 
-        <div class="greeting">
+        <div class="form-group">
 
-            <p>สวัสดี 👋</p>
+            <label>ห้อง</label>
 
-            <h1>คุณผู้ดูแลหอพัก</h1>
-
-        </div>
-
-    </div>
-
-    <div style="padding:20px">
-
-        <h3>เมนูลัด</h3>
-
-        <button class="pay-button"
-                onclick="openPage('repair')">
-            🔧 จัดการแจ้งซ่อม
-        </button>
-
-        <br><br>
-
-        <h3>ภาพรวมงานซ่อม</h3>
-
-        <div class="summary-box">
-
-            <div>🔴 รอดำเนินการ</div>
-
-            <div class="summary-number red"
-                 id="pendingCount">
-                0
-            </div>
+            <input
+                id="electricRoom"
+                class="input"
+                readonly>
 
         </div>
 
-        <div class="summary-box">
+        <div class="form-group">
 
-            <div>🟠 กำลังซ่อม</div>
+            <label>มิเตอร์เดิม</label>
 
-            <div class="summary-number orange"
-                 id="workingCount">
-                0
-            </div>
-
-        </div>
-
-        <div class="summary-box">
-
-            <div>🟢 ซ่อมเสร็จแล้ว</div>
-
-            <div class="summary-number green"
-                 id="doneCount">
-                0
-            </div>
+            <input
+                id="oldMeter"
+                class="input"
+                type="number"
+                readonly>
 
         </div>
 
-        <div class="summary-box">
+        <div class="form-group">
 
-            <div>💸 ค่าใช้จ่ายงานซ่อม</div>
+            <label>มิเตอร์ปัจจุบัน</label>
 
-            <div class="summary-number red"
-                 id="repairCost">
+            <input
+                id="newMeter"
+                class="input"
+                type="number"
+                oninput="calculateElectric()">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>ค่าไฟต่อหน่วย</label>
+
+            <input
+                id="electricRate"
+                class="input"
+                type="number"
+                oninput="calculateElectric()">
+
+        </div>
+
+        <div class="calculation">
+
+            ใช้ไฟ
+            <b id="unitResult">
+                0 หน่วย
+            </b>
+
+            <strong id="priceResult">
                 ฿0
-            </div>
+            </strong>
+
+        </div>
+
+        <div class="sheet-actions">
+
+            <button
+                class="btn btn-white"
+                onclick="closeSheet('electricSheet')">
+                ยกเลิก
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="saveElectric()">
+                บันทึก
+            </button>
 
         </div>
 
@@ -448,674 +1221,3369 @@ body{
 </div>
 
 
-<!-- ================= REPAIR ================= -->
+<!-- =====================================================
+BILL SHEET
+===================================================== -->
 
-<div id="repair" class="page">
+<div id="billSheet" class="overlay">
 
-    <div class="page-header">
+    <div class="sheet">
 
-        <button class="back"
-                onclick="openPage('home')">
-            ‹
-        </button>
+        <div class="handle"></div>
 
-        <h2>🔧 แจ้งซ่อม</h2>
+        <div class="sheet-head">
 
-    </div>
+            <h2>🧾 ใบแจ้งค่าเช่า</h2>
 
-    <button class="pay-button"
-            onclick="openRepairModal()">
-        ＋ เพิ่มรายการแจ้งซ่อม
-    </button>
+            <button
+                class="close"
+                onclick="closeSheet('billSheet')">
+                ✕
+            </button>
 
-    <br><br>
-
-    <div id="repairList"></div>
-
-</div>
-
-
-<!-- ================= HISTORY ================= -->
-
-<div id="history" class="page">
-
-    <div class="page-header">
-
-        <button class="back"
-                onclick="openPage('home')">
-            ‹
-        </button>
-
-        <h2>📜 ประวัติการซ่อม</h2>
-
-    </div>
-
-    <div id="historyList"></div>
-
-</div>
-
-
-<!-- ================= SUMMARY ================= -->
-
-<div id="summary" class="page">
-
-    <div class="page-header">
-
-        <button class="back"
-                onclick="openPage('home')">
-            ‹
-        </button>
-
-        <h2>📊 รายงาน</h2>
-
-    </div>
-
-    <div class="summary-box">
-
-        <div>ค่าใช้จ่ายงานซ่อมทั้งหมด</div>
-
-        <div class="summary-number red"
-             id="summaryRepairCost">
-            ฿0
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- ================= MODAL ================= -->
-
-<div id="repairModal" class="modal">
-
-    <div class="modal-box">
-
-        <h2>🔧 เพิ่มรายการซ่อม</h2>
-
-        <select class="input" id="repairRoom">
-
-            <option value="">เลือกห้อง</option>
-
-            <option>201</option>
-            <option>202</option>
-            <option>203</option>
-            <option>204</option>
-            <option>205</option>
-            <option>206</option>
-
-            <option>301</option>
-            <option>302</option>
-            <option>303</option>
-            <option>304</option>
-            <option>305</option>
-            <option>306</option>
-
-        </select>
-
-        <input
-            class="input"
-            id="repairName"
-            placeholder="รายการซ่อม เช่น แอร์ไม่เย็น"
-        >
-
-        <input
-            class="input"
-            id="repairDetail"
-            placeholder="รายละเอียดเพิ่มเติม"
-        >
-
-        <input
-            class="input"
-            id="repairMaterial"
-            type="number"
-            min="0"
-            placeholder="ค่าอุปกรณ์"
-        >
-
-        <input
-            class="input"
-            id="repairWorker"
-            type="number"
-            min="0"
-            placeholder="ค่าช่าง"
-        >
-
-        <button class="save"
-                onclick="addRepair()">
-            💾 บันทึกรายการ
-        </button>
-
-        <button class="cancel"
-                onclick="closeRepairModal()">
-            ยกเลิก
-        </button>
+        <div id="billContent"></div>
 
     </div>
 
 </div>
 
 
-<!-- ================= NAV ================= -->
+<!-- =====================================================
+REPAIR SHEET
+===================================================== -->
 
-<div class="nav">
+<div id="repairSheet" class="overlay">
 
-    <button class="nav-btn active"
-            onclick="openPage('home',this)">
+    <div class="sheet">
 
-        <span class="nav-icon">🏠</span>
-        หน้าแรก
+        <div class="handle"></div>
 
-    </button>
+        <div class="sheet-head">
 
-    <button class="nav-btn"
-            onclick="openPage('repair',this)">
+            <h2>🔧 แจ้งซ่อม</h2>
 
-        <span class="nav-icon">🔧</span>
-        แจ้งซ่อม
+            <button
+                class="close"
+                onclick="closeSheet('repairSheet')">
+                ✕
+            </button>
 
-    </button>
+        </div>
 
-    <button class="nav-btn"
-            onclick="openPage('history',this)">
+        <div class="form-group">
 
-        <span class="nav-icon">📜</span>
-        ประวัติ
+            <label>ห้อง</label>
 
-    </button>
+            <input
+                id="repairRoom"
+                class="input"
+                readonly>
 
-    <button class="nav-btn"
-            onclick="openPage('summary',this)">
+        </div>
 
-        <span class="nav-icon">📊</span>
-        รายงาน
+        <div class="form-group">
 
-    </button>
+            <label>หัวข้อ</label>
+
+            <select
+                id="repairType"
+                class="input">
+
+                <option>ไฟฟ้า</option>
+                <option>น้ำประปา</option>
+                <option>เครื่องปรับอากาศ</option>
+                <option>ประตู / หน้าต่าง</option>
+                <option>เฟอร์นิเจอร์</option>
+                <option>อื่น ๆ</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>รายละเอียด</label>
+
+            <textarea
+                id="repairDetail"
+                class="input"
+                rows="5"
+                placeholder="อธิบายปัญหาที่พบ"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            style="width:100%"
+            onclick="submitRepair()">
+
+            ส่งแจ้งซ่อม
+
+        </button>
+
+    </div>
 
 </div>
 
+
+<!-- =====================================================
+REPAIR ADMIN SHEET
+===================================================== -->
+
+<div id="repairAdminSheet" class="overlay">
+
+    <div class="sheet">
+
+        <div class="handle"></div>
+
+        <div class="sheet-head">
+
+            <h2>🔧 จัดการงานซ่อม</h2>
+
+            <button
+                class="close"
+                onclick="closeSheet('repairAdminSheet')">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="repairAdminContent"></div>
+
+    </div>
+
 </div>
+
+
+<!-- =====================================================
+EXPENSE SHEET
+===================================================== -->
+
+<div id="expenseSheet" class="overlay">
+
+    <div class="sheet">
+
+        <div class="handle"></div>
+
+        <div class="sheet-head">
+
+            <h2>💸 เพิ่มค่าใช้จ่าย</h2>
+
+            <button
+                class="close"
+                onclick="closeSheet('expenseSheet')">
+                ✕
+            </button>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>ประเภทค่าใช้จ่าย</label>
+
+            <select
+                id="expenseType"
+                class="input">
+
+                <option>ค่าวัสดุ</option>
+                <option>ค่าช่าง</option>
+                <option>ค่าอุปกรณ์</option>
+                <option>ค่าใช้จ่ายอื่น ๆ</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>รายละเอียด</label>
+
+            <input
+                id="expenseDetail"
+                class="input"
+                placeholder="เช่น ซื้อหลอดไฟ">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>จำนวนเงิน</label>
+
+            <input
+                id="expenseAmount"
+                class="input"
+                type="number"
+                min="0"
+                placeholder="0">
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            style="width:100%"
+            onclick="saveExpense()">
+
+            บันทึกค่าใช้จ่าย
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+PAYMENT SHEET
+===================================================== -->
+
+<div id="paymentSheet" class="overlay">
+
+    <div class="sheet">
+
+        <div class="handle"></div>
+
+        <div class="sheet-head">
+
+            <h2>💳 รับชำระเงิน</h2>
+
+            <button
+                class="close"
+                onclick="closeSheet('paymentSheet')">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="paymentContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+HISTORY SHEET
+===================================================== -->
+
+<div id="historySheet" class="overlay">
+
+    <div class="sheet">
+
+        <div class="handle"></div>
+
+        <div class="sheet-head">
+
+            <h2>📚 ประวัติรายการ</h2>
+
+            <button
+                class="close"
+                onclick="closeSheet('historySheet')">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="historyContent"></div>
+
+    </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
 
 
 <script>
 
-/* ================= DATA ================= */
+/* =====================================================
+DATA
+===================================================== */
 
-let repairs =
-JSON.parse(localStorage.getItem("repairs")) || [];
+const roomNumbers = [
+    "201","202","203","204","205","206",
+    "301","302","303","304","305","306"
+];
 
-let histories =
-JSON.parse(localStorage.getItem("repairHistory")) || [];
+const tenantNames = {
+    "201":"พลอยใส",
+    "202":"ภูมิพัฒน์",
+    "203":"พิมพ์ชนก",
+    "204":"กัญญารัตน์",
+    "205":"ธนกฤต",
+    "206":"ณัฐวุฒิ",
+    "301":"ศิริพร",
+    "302":"ภัทรพล",
+    "303":"ชลธิชา",
+    "304":"วรัญญา",
+    "305":"กิตติพงษ์",
+    "306":"นภัสสร"
+};
 
+const users = roomNumbers.map(room => ({
+    username:room,
+    password:room + "0",
+    role:"tenant",
+    room:room
+}));
 
-/* ================= PAGE ================= */
-
-function openPage(page,btn){
-
-    document.querySelectorAll(".page")
-    .forEach(p => p.classList.remove("active"));
-
-    document.getElementById(page)
-    .classList.add("active");
-
-    document.querySelectorAll(".nav-btn")
-    .forEach(b => b.classList.remove("active"));
-
-    if(btn){
-        btn.classList.add("active");
-    }
-
-    renderAll();
-}
-
-
-/* ================= MODAL ================= */
-
-function openRepairModal(){
-
-    document.getElementById("repairModal")
-    .classList.add("active");
-
-}
-
-function closeRepairModal(){
-
-    document.getElementById("repairModal")
-    .classList.remove("active");
-
-    document.getElementById("repairRoom").value="";
-    document.getElementById("repairName").value="";
-    document.getElementById("repairDetail").value="";
-    document.getElementById("repairMaterial").value="";
-    document.getElementById("repairWorker").value="";
-
-}
+users.unshift({
+    username:"admin",
+    password:"1234",
+    role:"admin",
+    name:"ผู้ดูแล"
+});
 
 
-/* ================= ADD REPAIR ================= */
+function createDefaultRooms(){
 
-function addRepair(){
-
-    const room =
-        document.getElementById("repairRoom").value;
-
-    const name =
-        document.getElementById("repairName").value.trim();
-
-    const detail =
-        document.getElementById("repairDetail").value.trim();
-
-    const material =
-        Number(document.getElementById("repairMaterial").value) || 0;
-
-    const worker =
-        Number(document.getElementById("repairWorker").value) || 0;
-
-
-    if(!room || !name){
-
-        alert("กรุณาเลือกห้องและกรอกรายการซ่อม");
-
-        return;
-
-    }
-
-
-    const repair = {
-
-        id:Date.now(),
+    return roomNumbers.map((room,index)=>({
 
         room:room,
 
-        name:name,
+        tenant:tenantNames[room],
 
-        detail:detail,
+        rent:2800,
 
-        material:material,
+        water:100,
 
-        worker:worker,
+        oldMeter:1000 + (index * 100),
 
-        total:material + worker,
+        newMeter:1000 + (index * 100) + 50,
 
-        status:"pending",
+        rate:7,
 
-        date:new Date().toLocaleDateString("th-TH")
+        status:"pending"
 
-    };
-
-
-    repairs.push(repair);
-
-    saveData();
-
-    closeRepairModal();
-
-    renderAll();
-
-    openPage("repair");
+    }));
 
 }
 
 
-/* ================= CHANGE STATUS ================= */
-
-function changeStatus(id,status){
-
-    const repair =
-        repairs.find(r => r.id === id);
-
-    if(!repair) return;
-
-    repair.status = status;
-
-    saveData();
-
-    renderAll();
-
-}
+let rooms =
+    JSON.parse(
+        localStorage.getItem("mobileDormRooms")
+    ) || createDefaultRooms();
 
 
-/* ================= CLOSE JOB ================= */
-
-function closeJob(id){
-
-    const index =
-        repairs.findIndex(r => r.id === id);
-
-    if(index === -1) return;
+let bills =
+    JSON.parse(
+        localStorage.getItem("mobileDormBills")
+    ) || [];
 
 
-    const repair =
-        repairs[index];
-
-    repair.status = "done";
-
-    repair.finishedDate =
-        new Date().toLocaleDateString("th-TH");
+let payments =
+    JSON.parse(
+        localStorage.getItem("mobileDormPayments")
+    ) || [];
 
 
-    histories.unshift(repair);
-
-    repairs.splice(index,1);
-
-    saveData();
-
-    renderAll();
-
-    alert("ปิดงานซ่อมเรียบร้อยแล้ว");
-
-}
+let repairs =
+    JSON.parse(
+        localStorage.getItem("mobileDormRepairs")
+    ) || [];
 
 
-/* ================= DELETE ================= */
+let expenses =
+    JSON.parse(
+        localStorage.getItem("mobileDormExpenses")
+    ) || [];
 
-function deleteRepair(id){
 
-    if(!confirm("ต้องการลบรายการนี้ใช่หรือไม่?"))
-        return;
+let currentUser = null;
 
-    repairs =
-        repairs.filter(r => r.id !== id);
+let selectedRoom = null;
 
-    saveData();
+let selectedRepair = null;
 
-    renderAll();
+
+/* =====================================================
+HELPER
+===================================================== */
+
+function money(value){
+
+    return "฿" +
+        Number(value || 0)
+        .toLocaleString("th-TH");
 
 }
 
 
-/* ================= SAVE ================= */
+function units(room){
+
+    return Math.max(
+        0,
+        Number(room.newMeter || 0) -
+        Number(room.oldMeter || 0)
+    );
+
+}
+
+
+function electric(room){
+
+    return units(room) *
+        Number(room.rate || 0);
+
+}
+
+
+function total(room){
+
+    return Number(room.rent || 0) +
+        Number(room.water || 0) +
+        electric(room);
+
+}
+
 
 function saveData(){
 
     localStorage.setItem(
-        "repairs",
+        "mobileDormRooms",
+        JSON.stringify(rooms)
+    );
+
+    localStorage.setItem(
+        "mobileDormBills",
+        JSON.stringify(bills)
+    );
+
+    localStorage.setItem(
+        "mobileDormPayments",
+        JSON.stringify(payments)
+    );
+
+    localStorage.setItem(
+        "mobileDormRepairs",
         JSON.stringify(repairs)
     );
 
     localStorage.setItem(
-        "repairHistory",
-        JSON.stringify(histories)
+        "mobileDormExpenses",
+        JSON.stringify(expenses)
     );
 
 }
 
 
-/* ================= RENDER REPAIR ================= */
+function today(){
 
-function renderRepairs(){
+    return new Date()
+        .toLocaleDateString("th-TH");
 
-    const box =
-        document.getElementById("repairList");
+}
 
-    if(repairs.length === 0){
 
-        box.innerHTML =
-            `<div class="empty">
-                🎉 ไม่มีงานซ่อมค้าง
-             </div>`;
+function dateKey(){
+
+    const d = new Date();
+
+    return d.getFullYear() +
+        "-" +
+        String(d.getMonth()+1).padStart(2,"0");
+
+}
+
+
+function toast(text){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent = text;
+
+    el.classList.add("show");
+
+    setTimeout(()=>{
+        el.classList.remove("show");
+    },2200);
+
+}
+
+
+function generateBillNumber(){
+
+    return "BL-" +
+        Date.now().toString().slice(-8);
+
+}
+
+
+/* =====================================================
+LOGIN
+===================================================== */
+
+function login(event){
+
+    event.preventDefault();
+
+    const username =
+        document
+        .getElementById("username")
+        .value.trim();
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+    const user =
+        users.find(
+            u =>
+                u.username === username &&
+                u.password === password
+        );
+
+    if(!user){
+
+        toast(
+            "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+        );
 
         return;
 
     }
 
+    currentUser = user;
 
-    box.innerHTML =
-        repairs.map(r => {
+    localStorage.setItem(
+        "mobileDormUser",
+        JSON.stringify(user)
+    );
 
-            let statusText="";
-            let statusClass="";
-
-            if(r.status==="pending"){
-
-                statusText="🔴 รอดำเนินการ";
-                statusClass="pending";
-
-            }
-
-            if(r.status==="working"){
-
-                statusText="🟠 กำลังซ่อม";
-                statusClass="working";
-
-            }
-
-            return `
-
-            <div class="repair-card">
-
-                <div class="repair-top">
-
-                    <div class="repair-room">
-                        🏠 ห้อง ${r.room}
-                    </div>
-
-                    <span class="status ${statusClass}">
-                        ${statusText}
-                    </span>
-
-                </div>
-
-                <div class="repair-name">
-                    🔧 ${r.name}
-                </div>
-
-                <div class="repair-detail">
-                    ${r.detail || "ไม่มีรายละเอียดเพิ่มเติม"}
-                </div>
-
-                <div class="repair-cost">
-
-                    ค่าอุปกรณ์:
-                    ฿${r.material.toLocaleString()}
-
-                    <br>
-
-                    ค่าช่าง:
-                    ฿${r.worker.toLocaleString()}
-
-                    <hr>
-
-                    <span class="repair-total">
-                        ค่าใช้จ่ายรวม:
-                        ฿${r.total.toLocaleString()}
-                    </span>
-
-                </div>
-
-                <small>
-                    📅 แจ้งวันที่ ${r.date}
-                </small>
-
-                <br><br>
-
-                <div class="actions">
-
-                    ${
-                        r.status==="pending"
-
-                        ?
-
-                        `<button
-                            class="work-btn"
-                            onclick="changeStatus(${r.id},'working')">
-                            🔨 เริ่มซ่อม
-                         </button>`
-
-                        :
-
-                        `<button
-                            class="done-btn"
-                            onclick="closeJob(${r.id})">
-                            ✅ ปิดงาน
-                         </button>`
-                    }
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteRepair(${r.id})">
-                        🗑️
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
+    openApp();
 
 }
 
 
-/* ================= HISTORY ================= */
+function logout(){
 
-function renderHistory(){
+    currentUser = null;
 
-    const box =
-        document.getElementById("historyList");
+    localStorage.removeItem(
+        "mobileDormUser"
+    );
+
+    document
+    .getElementById("adminScreen")
+    .classList.add("hidden");
+
+    document
+    .getElementById("tenantScreen")
+    .classList.add("hidden");
+
+    document
+    .getElementById("loginScreen")
+    .classList.remove("hidden");
+
+    toast("ออกจากระบบแล้ว");
+
+}
 
 
-    if(histories.length === 0){
+function checkLogin(){
 
-        box.innerHTML =
-            `<div class="empty">
-                ยังไม่มีประวัติการซ่อม
-             </div>`;
+    const saved =
+        localStorage.getItem(
+            "mobileDormUser"
+        );
 
-        return;
+    if(saved){
+
+        currentUser =
+            JSON.parse(saved);
+
+        openApp();
 
     }
 
+}
 
-    box.innerHTML =
-        histories.map(r => `
 
-        <div class="history-card">
+function openApp(){
 
-            <strong>
-                🔧 ห้อง ${r.room} - ${r.name}
-            </strong>
+    document
+    .getElementById("loginScreen")
+    .classList.add("hidden");
 
-            <p>
-                ค่าอุปกรณ์ ฿${r.material.toLocaleString()}
-                <br>
-                ค่าช่าง ฿${r.worker.toLocaleString()}
-                <br>
-                <strong>
-                    ค่าใช้จ่ายรวม ฿${r.total.toLocaleString()}
-                </strong>
-            </p>
+    if(currentUser.role === "admin"){
 
-            <small>
-                แจ้ง ${r.date}
-                ${
-                    r.finishedDate
-                    ? " | ปิดงาน " + r.finishedDate
-                    : ""
-                }
-            </small>
+        document
+        .getElementById("adminScreen")
+        .classList.remove("hidden");
 
-            <div style="color:#16843a;margin-top:8px">
-                🟢 ซ่อมเสร็จแล้ว
-            </div>
+        document
+        .getElementById("tenantScreen")
+        .classList.add("hidden");
 
-        </div>
+        renderAdminHome();
 
-        `).join("");
+    }
+
+    else{
+
+        document
+        .getElementById("tenantScreen")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminScreen")
+        .classList.add("hidden");
+
+        renderTenantHome();
+
+    }
 
 }
 
 
-/* ================= SUMMARY ================= */
+/* =====================================================
+ADMIN NAV
+===================================================== */
 
-function renderSummary(){
+function showAdminPage(page,button){
 
-    const total =
-        histories.reduce(
-            (sum,r) => sum + r.total,
-            0
-        )
-        +
-        repairs.reduce(
-            (sum,r) => sum + r.total,
+    setActiveNav(button);
+
+    if(page === "home")
+        renderAdminHome();
+
+    if(page === "rooms")
+        renderAdminRooms();
+
+    if(page === "bills")
+        renderAdminBills();
+
+    if(page === "profile")
+        renderAdminMenu();
+
+}
+
+
+function setActiveNav(button){
+
+    if(!button) return;
+
+    button
+    .parentElement
+    .querySelectorAll(".nav-btn")
+    .forEach(btn =>
+        btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+}
+
+
+/* =====================================================
+ADMIN HOME
+===================================================== */
+
+function renderAdminHome(){
+
+    const paid =
+        rooms.filter(
+            r => r.status === "paid"
+        );
+
+    const pending =
+        rooms.filter(
+            r => r.status !== "paid"
+        );
+
+    const income =
+        payments.reduce(
+            (sum,p) =>
+                sum + Number(p.amount || 0),
             0
         );
 
+    const expense =
+        expenses.reduce(
+            (sum,e) =>
+                sum + Number(e.amount || 0),
+            0
+        );
 
-    document.getElementById("repairCost")
-        .textContent =
-        "฿" + total.toLocaleString();
-
-    document.getElementById("summaryRepairCost")
-        .textContent =
-        "฿" + total.toLocaleString();
-
-
-    document.getElementById("pendingCount")
-        .textContent =
-        repairs.filter(r =>
-            r.status==="pending"
-        ).length;
-
-
-    document.getElementById("workingCount")
-        .textContent =
-        repairs.filter(r =>
-            r.status==="working"
-        ).length;
-
-
-    document.getElementById("doneCount")
-        .textContent =
-        histories.length;
-
-}
-
-
-/* ================= NOTIFICATION ================= */
-
-function showNotification(){
-
-    const pending =
+    const repairPending =
         repairs.filter(
             r => r.status !== "done"
         ).length;
 
-    if(pending > 0){
 
-        alert(
-            "🔔 มีงานซ่อมที่ยังไม่เสร็จ " +
-            pending +
-            " รายการ"
+    document
+    .getElementById("adminContent")
+    .innerHTML = `
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🏢</div>
+
+                <div class="stat-number">
+                    ${rooms.length}
+                </div>
+
+                <div class="stat-label">
+                    ห้องทั้งหมด
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">💰</div>
+
+                <div class="stat-number">
+                    ${money(income)}
+                </div>
+
+                <div class="stat-label">
+                    รายรับ
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">⏳</div>
+
+                <div class="stat-number">
+                    ${pending.length}
+                </div>
+
+                <div class="stat-label">
+                    รอชำระ
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🔧</div>
+
+                <div class="stat-number">
+                    ${repairPending}
+                </div>
+
+                <div class="stat-label">
+                    งานซ่อมค้าง
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+
+            <h2>
+                เมนูลัด
+            </h2>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <button
+                class="quick-button"
+                onclick="showAdminPage('bills')">
+
+                <div class="icon">🧾</div>
+
+                <span>ออกบิล</span>
+
+            </button>
+
+            <button
+                class="quick-button"
+                onclick="openAdminRepairs()">
+
+                <div class="icon">🔧</div>
+
+                <span>งานซ่อม</span>
+
+            </button>
+
+            <button
+                class="quick-button"
+                onclick="openMonthlySummary()">
+
+                <div class="icon">📊</div>
+
+                <span>สรุปเดือน</span>
+
+            </button>
+
+        </div>
+
+
+        <div class="section-title">
+
+            <h2>
+                ห้องพัก
+            </h2>
+
+            <span>
+                กันยายน
+            </span>
+
+        </div>
+
+
+        <div class="room-list" id="roomList"></div>
+
+    `;
+
+    renderRoomCards();
+
+}
+
+
+/* =====================================================
+ROOMS
+===================================================== */
+
+function renderAdminRooms(){
+
+    document
+    .getElementById("adminContent")
+    .innerHTML = `
+
+        <div class="section-title">
+
+            <h2>
+                ห้องพักทั้งหมด
+            </h2>
+
+            <span>
+                ${rooms.length} ห้อง
+            </span>
+
+        </div>
+
+        <div
+            class="room-list"
+            id="roomList">
+        </div>
+
+    `;
+
+    renderRoomCards();
+
+}
+
+
+function renderRoomCards(){
+
+    const list =
+        document.getElementById("roomList");
+
+    if(!list) return;
+
+    list.innerHTML =
+        rooms.map((room,index)=>`
+
+        <div class="room-card">
+
+            <div class="room-head">
+
+                <div class="room-left">
+
+                    <div class="room-icon">
+                        🛏️
+                    </div>
+
+                    <div>
+
+                        <div class="room-name">
+                            ห้อง ${room.room}
+                        </div>
+
+                        <div class="tenant-name">
+                            ${room.tenant}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="
+                    badge
+                    ${
+                        room.status === "paid"
+                        ? "badge-paid"
+                        : "badge-pending"
+                    }">
+
+                    ${
+                        room.status === "paid"
+                        ? "ชำระแล้ว"
+                        : "รอชำระ"
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="cost-box">
+
+                <div class="cost-row">
+
+                    <span>ค่าเช่า</span>
+
+                    <b>
+                        ${money(room.rent)}
+                    </b>
+
+                </div>
+
+                <div class="cost-row">
+
+                    <span>ค่าน้ำ</span>
+
+                    <b>
+                        ${money(room.water)}
+                    </b>
+
+                </div>
+
+                <div class="cost-row">
+
+                    <span>
+                        ค่าไฟ ${units(room)} หน่วย
+                    </span>
+
+                    <b>
+                        ${money(electric(room))}
+                    </b>
+
+                </div>
+
+                <div class="cost-total">
+
+                    <span>ยอดรวม</span>
+
+                    <strong>
+                        ${money(total(room))}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="room-actions">
+
+                <button
+                    class="btn btn-light"
+                    onclick="openElectric(${index})">
+
+                    ⚡ มิเตอร์
+
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="issueBill(${index})">
+
+                    🧾 ออกบิล
+
+                </button>
+
+                <button
+                    class="btn btn-green"
+                    onclick="openPayment(${index})">
+
+                    ${
+                        room.status === "paid"
+                        ? "✓ ชำระแล้ว"
+                        : "💳 รับชำระ"
+                    }
+
+                </button>
+
+                <button
+                    class="btn btn-white"
+                    onclick="tenantPreview(${index})">
+
+                    👁 ดูข้อมูล
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+BILLS
+===================================================== */
+
+function renderAdminBills(){
+
+    document
+    .getElementById("adminContent")
+    .innerHTML = `
+
+        <div class="section-title">
+
+            <h2>
+                🧾 จัดการบิล
+            </h2>
+
+            <span>
+                ${bills.length} ใบ
+            </span>
+
+        </div>
+
+
+        <button
+            class="btn btn-light"
+            style="width:100%;margin-bottom:15px"
+            onclick="openHistory()">
+
+            📚 ดูประวัติการชำระเงิน
+
+        </button>
+
+
+        <div class="room-list">
+
+            ${rooms.map((room,index)=>`
+
+                <div class="card">
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:10px
+                    ">
+
+                        <div>
+
+                            <b>
+                                ห้อง ${room.room}
+                            </b>
+
+                            <div style="
+                                font-size:12px;
+                                color:#888;
+                                margin-top:3px
+                            ">
+
+                                ${room.tenant}
+
+                            </div>
+
+                        </div>
+
+                        <strong
+                            style="color:var(--orange)">
+
+                            ${money(total(room))}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div style="
+                        display:grid;
+                        grid-template-columns:1fr 1fr;
+                        gap:8px;
+                        margin-top:12px
+                    ">
+
+                        <button
+                            class="btn btn-light"
+                            onclick="issueBill(${index})">
+
+                            🧾 ออกบิล
+
+                        </button>
+
+                        <button
+                            class="btn btn-green"
+                            onclick="openPayment(${index})">
+
+                            💳 รับเงิน
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+ISSUE BILL
+===================================================== */
+
+function issueBill(index){
+
+    const room = rooms[index];
+
+    const bill = {
+
+        id:generateBillNumber(),
+
+        room:room.room,
+
+        tenant:room.tenant,
+
+        rent:room.rent,
+
+        water:room.water,
+
+        units:units(room),
+
+        electric:electric(room),
+
+        total:total(room),
+
+        date:today(),
+
+        month:dateKey(),
+
+        status:
+            room.status === "paid"
+            ? "paid"
+            : "pending"
+
+    };
+
+    const existing =
+        bills.find(
+            b =>
+                b.room === room.room &&
+                b.month === dateKey()
         );
 
-    }else{
+    if(existing){
 
-        alert(
-            "🔔 ตอนนี้ไม่มีงานซ่อมค้าง"
-        );
+        openBillByObject(existing);
+
+        return;
 
     }
 
+    bills.unshift(bill);
+
+    saveData();
+
+    openBillByObject(bill);
+
+    toast(
+        "ออกบิล " +
+        bill.id +
+        " แล้ว"
+    );
+
 }
 
 
-/* ================= RENDER ALL ================= */
+function openBillByObject(bill){
 
-function renderAll(){
+    document
+    .getElementById("billContent")
+    .innerHTML = billHTML(bill,true);
 
-    renderRepairs();
-
-    renderHistory();
-
-    renderSummary();
+    openSheet("billSheet");
 
 }
 
 
-/* ================= START ================= */
+function billHTML(bill,admin=false){
 
-renderAll();
+    return `
+
+    <div class="bill">
+
+        <div class="bill-title">
+
+            <h2>
+                บ้านพลอยระย้า
+            </h2>
+
+            <p>
+                ใบแจ้งค่าเช่าห้องพัก
+            </p>
+
+            <div class="bill-number">
+
+                เลขที่ ${bill.id}
+                <br>
+                วันที่ ${bill.date}
+
+            </div>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>ห้อง</span>
+
+            <b>${bill.room}</b>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>ผู้เช่า</span>
+
+            <b>${bill.tenant}</b>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="bill-row">
+
+            <span>🏠 ค่าเช่า</span>
+
+            <span>${money(bill.rent)}</span>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>💧 ค่าน้ำ</span>
+
+            <span>${money(bill.water)}</span>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                ⚡ ค่าไฟ (${bill.units} หน่วย)
+            </span>
+
+            <span>
+                ${money(bill.electric)}
+            </span>
+
+        </div>
+
+
+        <div class="bill-total">
+
+            <span>รวม</span>
+
+            <span>
+                ${money(bill.total)}
+            </span>
+
+        </div>
+
+
+        <div class="
+            badge
+            ${
+                bill.status === "paid"
+                ? "badge-paid"
+                : "badge-pending"
+            }
+        "
+        style="
+            text-align:center;
+            width:100%;
+            margin-top:15px
+        ">
+
+            ${
+                bill.status === "paid"
+                ? "✅ ชำระแล้ว"
+                : "⏳ รอชำระ"
+            }
+
+        </div>
+
+
+        ${
+            admin
+            ?
+            `
+            <div class="bill-actions">
+
+                <button
+                    class="btn btn-white"
+                    onclick="printBill()">
+
+                    🖨 พิมพ์
+
+                </button>
+
+                <button
+                    class="btn btn-green"
+                    onclick="
+                        openPaymentByBill('${bill.id}')
+                    ">
+
+                    💳 รับชำระ
+
+                </button>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+    </div>
+
+    `;
+
+}
+
+
+function printBill(){
+
+    window.print();
+
+}
+
+
+/* =====================================================
+PAYMENT
+===================================================== */
+
+function openPayment(index){
+
+    const room = rooms[index];
+
+    const bill =
+        bills.find(
+            b =>
+                b.room === room.room &&
+                b.month === dateKey()
+        );
+
+    openPaymentData(
+        room,
+        bill
+    );
+
+}
+
+
+function openPaymentByBill(id){
+
+    const bill =
+        bills.find(
+            b => b.id === id
+        );
+
+    if(!bill) return;
+
+    const room =
+        rooms.find(
+            r => r.room === bill.room
+        );
+
+    closeSheet("billSheet");
+
+    openPaymentData(
+        room,
+        bill
+    );
+
+}
+
+
+function openPaymentData(room,bill){
+
+    const amount =
+        bill
+        ? bill.total
+        : total(room);
+
+    document
+    .getElementById("paymentContent")
+    .innerHTML = `
+
+        <div class="calculation">
+
+            <small>
+                ห้อง ${room.room}
+            </small>
+
+            <strong>
+                ${money(amount)}
+            </strong>
+
+            <div>
+                ${room.tenant}
+            </div>
+
+        </div>
+
+
+        <div class="form-group"
+             style="margin-top:15px">
+
+            <label>
+                วิธีชำระเงิน
+            </label>
+
+            <select
+                id="paymentMethod"
+                class="input">
+
+                <option>เงินสด</option>
+                <option>โอนเงิน</option>
+                <option>พร้อมเพย์</option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="btn btn-green"
+            style="width:100%"
+            onclick="
+                confirmPayment(
+                    '${room.room}',
+                    '${bill ? bill.id : ""}'
+                )
+            ">
+
+            ✓ ยืนยันรับชำระ
+
+        </button>
+
+    `;
+
+    openSheet("paymentSheet");
+
+}
+
+
+function confirmPayment(roomNumber,billId){
+
+    const room =
+        rooms.find(
+            r => r.room === roomNumber
+        );
+
+    if(!room) return;
+
+    const amount =
+        billId
+        ?
+        bills.find(b=>b.id===billId)?.total
+        :
+        total(room);
+
+    const method =
+        document
+        .getElementById("paymentMethod")
+        .value;
+
+    room.status = "paid";
+
+    if(billId){
+
+        const bill =
+            bills.find(
+                b => b.id === billId
+            );
+
+        if(bill)
+            bill.status = "paid";
+
+    }
+    else{
+
+        const existing =
+            bills.find(
+                b =>
+                    b.room === room.room &&
+                    b.month === dateKey()
+            );
+
+        if(existing){
+
+            existing.status = "paid";
+
+        }
+        else{
+
+            bills.unshift({
+
+                id:generateBillNumber(),
+
+                room:room.room,
+
+                tenant:room.tenant,
+
+                rent:room.rent,
+
+                water:room.water,
+
+                units:units(room),
+
+                electric:electric(room),
+
+                total:total(room),
+
+                date:today(),
+
+                month:dateKey(),
+
+                status:"paid"
+
+            });
+
+        }
+
+    }
+
+    payments.unshift({
+
+        id:"PAY-" +
+            Date.now().toString().slice(-7),
+
+        room:room.room,
+
+        tenant:room.tenant,
+
+        amount:Number(amount),
+
+        method:method,
+
+        date:today(),
+
+        month:dateKey()
+
+    });
+
+    saveData();
+
+    closeSheet("paymentSheet");
+
+    renderAdminHome();
+
+    toast(
+        "รับชำระเงินห้อง " +
+        room.room +
+        " แล้ว"
+    );
+
+}
+
+
+/* =====================================================
+ELECTRIC
+===================================================== */
+
+function openElectric(index){
+
+    selectedRoom = index;
+
+    const room =
+        rooms[index];
+
+    document
+    .getElementById("electricRoom")
+    .value = room.room;
+
+    document
+    .getElementById("oldMeter")
+    .value = room.oldMeter;
+
+    document
+    .getElementById("newMeter")
+    .value = room.newMeter;
+
+    document
+    .getElementById("electricRate")
+    .value = room.rate;
+
+    calculateElectric();
+
+    openSheet("electricSheet");
+
+}
+
+
+function calculateElectric(){
+
+    const oldValue =
+        Number(
+            document
+            .getElementById("oldMeter")
+            .value
+        );
+
+    const newValue =
+        Number(
+            document
+            .getElementById("newMeter")
+            .value
+        );
+
+    const rate =
+        Number(
+            document
+            .getElementById("electricRate")
+            .value
+        );
+
+    const use =
+        Math.max(
+            0,
+            newValue - oldValue
+        );
+
+    document
+    .getElementById("unitResult")
+    .textContent =
+        use + " หน่วย";
+
+    document
+    .getElementById("priceResult")
+    .textContent =
+        money(use * rate);
+
+}
+
+
+function saveElectric(){
+
+    const room =
+        rooms[selectedRoom];
+
+    const newValue =
+        Number(
+            document
+            .getElementById("newMeter")
+            .value
+        );
+
+    const rate =
+        Number(
+            document
+            .getElementById("electricRate")
+            .value
+        );
+
+    if(newValue < room.oldMeter){
+
+        toast(
+            "มิเตอร์ใหม่ต้องมากกว่ามิเตอร์เดิม"
+        );
+
+        return;
+
+    }
+
+    room.newMeter = newValue;
+
+    room.rate = rate;
+
+    saveData();
+
+    closeSheet("electricSheet");
+
+    renderAdminHome();
+
+    toast("บันทึกมิเตอร์แล้ว");
+
+}
+
+
+/* =====================================================
+REPAIR
+===================================================== */
+
+function openRepairForTenant(){
+
+    document
+    .getElementById("repairRoom")
+    .value =
+        currentUser.room;
+
+    openSheet("repairSheet");
+
+}
+
+
+function submitRepair(){
+
+    const room =
+        currentUser.role === "tenant"
+        ? getTenantRoom()
+        : rooms.find(
+            r =>
+                r.room ===
+                document
+                .getElementById("repairRoom")
+                .value
+        );
+
+    const type =
+        document
+        .getElementById("repairType")
+        .value;
+
+    const detail =
+        document
+        .getElementById("repairDetail")
+        .value.trim();
+
+    if(!detail){
+
+        toast(
+            "กรุณากรอกรายละเอียด"
+        );
+
+        return;
+
+    }
+
+    repairs.unshift({
+
+        id:
+            "REP-" +
+            Date.now()
+            .toString()
+            .slice(-7),
+
+        room:room.room,
+
+        tenant:room.tenant,
+
+        type:type,
+
+        detail:detail,
+
+        status:"new",
+
+        materialCost:0,
+
+        laborCost:0,
+
+        date:today(),
+
+        month:dateKey()
+
+    });
+
+    saveData();
+
+    document
+    .getElementById("repairDetail")
+    .value = "";
+
+    closeSheet("repairSheet");
+
+    if(currentUser.role === "tenant")
+        renderTenantRepair();
+
+    toast("ส่งแจ้งซ่อมแล้ว");
+
+}
+
+
+function openAdminRepairs(){
+
+    document
+    .getElementById("repairAdminContent")
+    .innerHTML = `
+
+        ${
+            repairs.length
+            ?
+            repairs.map(
+                (repair,index)=>`
+
+                <div
+                    class="info-card"
+                    style="margin-bottom:10px">
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            gap:8px
+                        ">
+
+                        <div>
+
+                            <b>
+                                ห้อง ${repair.room}
+                            </b>
+
+                            <div
+                                style="
+                                    color:#888;
+                                    font-size:12px;
+                                    margin-top:3px
+                                ">
+
+                                ${repair.type}
+
+                            </div>
+
+                        </div>
+
+                        <span class="
+                            badge
+                            ${
+                                repair.status === "done"
+                                ? "badge-done"
+                                : "badge-repair"
+                            }">
+
+                            ${repairStatusText(repair.status)}
+
+                        </span>
+
+                    </div>
+
+
+                    <p
+                        style="
+                            margin-top:12px;
+                            font-size:13px
+                        ">
+
+                        ${repair.detail}
+
+                    </p>
+
+
+                    <div class="cost-box">
+
+                        <div class="cost-row">
+
+                            <span>
+                                ค่าวัสดุ
+                            </span>
+
+                            <b>
+                                ${money(repair.materialCost)}
+                            </b>
+
+                        </div>
+
+                        <div class="cost-row">
+
+                            <span>
+                                ค่าช่าง
+                            </span>
+
+                            <b>
+                                ${money(repair.laborCost)}
+                            </b>
+
+                        </div>
+
+                        <div class="cost-total">
+
+                            <span>
+                                ค่าใช้จ่าย
+                            </span>
+
+                            <strong>
+                                ${money(
+                                    Number(repair.materialCost) +
+                                    Number(repair.laborCost)
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            display:grid;
+                            grid-template-columns:1fr 1fr;
+                            gap:8px;
+                            margin-top:10px
+                        ">
+
+                        <button
+                            class="btn btn-light"
+                            onclick="
+                                editRepair(${index})
+                            ">
+
+                            ✏️ จัดการ
+
+                        </button>
+
+                        <button
+                            class="btn ${
+                                repair.status === "done"
+                                ? "btn-white"
+                                : "btn-green"
+                            }"
+                            onclick="
+                                toggleRepairDone(${index})
+                            ">
+
+                            ${
+                                repair.status === "done"
+                                ? "↩️ เปิดงาน"
+                                : "✓ ปิดงาน"
+                            }
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("")
+
+            :
+
+            `
+            <div
+                style="
+                    text-align:center;
+                    color:#999;
+                    padding:30px
+                ">
+
+                ยังไม่มีรายการแจ้งซ่อม
+
+            </div>
+            `
+        }
+
+    `;
+
+    openSheet("repairAdminSheet");
+
+}
+
+
+function repairStatusText(status){
+
+    if(status === "new")
+        return "แจ้งใหม่";
+
+    if(status === "working")
+        return "กำลังซ่อม";
+
+    if(status === "done")
+        return "เสร็จแล้ว";
+
+    return status;
+
+}
+
+
+function editRepair(index){
+
+    selectedRepair = index;
+
+    const repair =
+        repairs[index];
+
+    document
+    .getElementById("repairAdminContent")
+    .innerHTML = `
+
+        <div class="form-group">
+
+            <label>
+                สถานะงาน
+            </label>
+
+            <select
+                id="repairStatus"
+                class="input">
+
+                <option
+                    value="new"
+                    ${repair.status==="new"?"selected":""}>
+
+                    แจ้งใหม่
+
+                </option>
+
+                <option
+                    value="working"
+                    ${repair.status==="working"?"selected":""}>
+
+                    กำลังซ่อม
+
+                </option>
+
+                <option
+                    value="done"
+                    ${repair.status==="done"?"selected":""}>
+
+                    เสร็จแล้ว
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                ค่าวัสดุ
+            </label>
+
+            <input
+                id="materialCost"
+                class="input"
+                type="number"
+                min="0"
+                value="${repair.materialCost || 0}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                ค่าช่าง
+            </label>
+
+            <input
+                id="laborCost"
+                class="input"
+                type="number"
+                min="0"
+                value="${repair.laborCost || 0}">
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            style="width:100%"
+            onclick="saveRepairEdit()">
+
+            💾 บันทึกงานซ่อม
+
+        </button>
+
+    `;
+
+}
+
+
+function saveRepairEdit(){
+
+    const repair =
+        repairs[selectedRepair];
+
+    repair.status =
+        document
+        .getElementById("repairStatus")
+        .value;
+
+    repair.materialCost =
+        Number(
+            document
+            .getElementById("materialCost")
+            .value
+        );
+
+    repair.laborCost =
+        Number(
+            document
+            .getElementById("laborCost")
+            .value
+        );
+
+    saveData();
+
+    openAdminRepairs();
+
+    toast("บันทึกงานซ่อมแล้ว");
+
+}
+
+
+function toggleRepairDone(index){
+
+    const repair =
+        repairs[index];
+
+    repair.status =
+        repair.status === "done"
+        ? "working"
+        : "done";
+
+    saveData();
+
+    openAdminRepairs();
+
+    toast(
+        repair.status === "done"
+        ? "ปิดงานซ่อมแล้ว"
+        : "เปิดงานซ่อมอีกครั้ง"
+    );
+
+}
+
+
+/* =====================================================
+EXPENSE
+===================================================== */
+
+function openExpense(){
+
+    document
+    .getElementById("expenseDetail")
+    .value = "";
+
+    document
+    .getElementById("expenseAmount")
+    .value = "";
+
+    openSheet("expenseSheet");
+
+}
+
+
+function saveExpense(){
+
+    const type =
+        document
+        .getElementById("expenseType")
+        .value;
+
+    const detail =
+        document
+        .getElementById("expenseDetail")
+        .value.trim();
+
+    const amount =
+        Number(
+            document
+            .getElementById("expenseAmount")
+            .value
+        );
+
+    if(!detail || amount <= 0){
+
+        toast(
+            "กรุณากรอกข้อมูลให้ครบ"
+        );
+
+        return;
+
+    }
+
+    expenses.unshift({
+
+        id:
+            "EXP-" +
+            Date.now()
+            .toString()
+            .slice(-7),
+
+        type:type,
+
+        detail:detail,
+
+        amount:amount,
+
+        date:today(),
+
+        month:dateKey()
+
+    });
+
+    saveData();
+
+    closeSheet("expenseSheet");
+
+    openMonthlySummary();
+
+    toast("เพิ่มค่าใช้จ่ายแล้ว");
+
+}
+
+
+/* =====================================================
+MONTHLY SUMMARY
+===================================================== */
+
+function openMonthlySummary(){
+
+    const month =
+        dateKey();
+
+    const monthPayments =
+        payments.filter(
+            p => p.month === month
+        );
+
+    const monthExpenses =
+        expenses.filter(
+            e => e.month === month
+        );
+
+    const income =
+        monthPayments.reduce(
+            (sum,p)=>
+                sum + Number(p.amount || 0),
+            0
+        );
+
+    const expense =
+        monthExpenses.reduce(
+            (sum,e)=>
+                sum + Number(e.amount || 0),
+            0
+        );
+
+    const profit =
+        income - expense;
+
+
+    document
+    .getElementById("historyContent")
+    .innerHTML = `
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <div class="stat-number"
+                     style="color:var(--green)">
+
+                    ${money(income)}
+
+                </div>
+
+                <div class="stat-label">
+                    รายรับเดือนนี้
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💸
+                </div>
+
+                <div class="stat-number"
+                     style="color:var(--red)">
+
+                    ${money(expense)}
+
+                </div>
+
+                <div class="stat-label">
+                    รายจ่ายเดือนนี้
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="month-card">
+
+            <div class="month-title">
+
+                <span>
+                    📊 กำไรสุทธิ
+                </span>
+
+                <span class="month-profit">
+                    ${money(profit)}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn btn-light"
+            style="width:100%;margin-bottom:10px"
+            onclick="openExpense()">
+
+            ＋ เพิ่มค่าใช้จ่าย
+
+        </button>
+
+
+        <div class="section-title">
+
+            <h2>
+                รายรับ
+            </h2>
+
+        </div>
+
+
+        ${
+            monthPayments.length
+            ?
+            monthPayments.map(
+                p=>`
+
+                <div class="month-card">
+
+                    <div class="month-title">
+
+                        <span>
+                            ห้อง ${p.room}
+                        </span>
+
+                        <span
+                            class="month-income">
+
+                            +${money(p.amount)}
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        style="
+                            color:#888;
+                            font-size:12px;
+                            margin-top:5px
+                        ">
+
+                        ${p.tenant}
+                        • ${p.method}
+                        • ${p.date}
+
+                    </div>
+
+                </div>
+
+            `).join("")
+
+            :
+
+            `
+            <div
+                style="
+                    text-align:center;
+                    color:#999;
+                    padding:15px
+                ">
+
+                ยังไม่มีรายรับ
+
+            </div>
+            `
+        }
+
+
+        <div class="section-title">
+
+            <h2>
+                รายจ่าย
+            </h2>
+
+        </div>
+
+
+        ${
+            monthExpenses.length
+            ?
+            monthExpenses.map(
+                e=>`
+
+                <div class="month-card">
+
+                    <div class="month-title">
+
+                        <span>
+                            ${e.type}
+                        </span>
+
+                        <span
+                            class="month-expense">
+
+                            -${money(e.amount)}
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        style="
+                            color:#888;
+                            font-size:12px;
+                            margin-top:5px
+                        ">
+
+                        ${e.detail}
+                        • ${e.date}
+
+                    </div>
+
+                </div>
+
+            `).join("")
+
+            :
+
+            `
+            <div
+                style="
+                    text-align:center;
+                    color:#999;
+                    padding:15px
+                ">
+
+                ยังไม่มีรายจ่าย
+
+            </div>
+            `
+        }
+
+    `;
+
+    openSheet("historySheet");
+
+}
+
+
+/* =====================================================
+HISTORY
+===================================================== */
+
+function openHistory(){
+
+    const list =
+        payments;
+
+    document
+    .getElementById("historyContent")
+    .innerHTML = `
+
+        <div class="section-title">
+
+            <h2>
+                ประวัติการชำระเงิน
+            </h2>
+
+            <span>
+                ${list.length} รายการ
+            </span>
+
+        </div>
+
+
+        ${
+            list.length
+            ?
+            list.map(
+                p=>`
+
+                <div class="month-card">
+
+                    <div class="month-title">
+
+                        <span>
+                            ห้อง ${p.room}
+                        </span>
+
+                        <span
+                            class="month-income">
+
+                            ${money(p.amount)}
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        style="
+                            color:#888;
+                            font-size:12px;
+                            margin-top:5px
+                        ">
+
+                        ${p.tenant}
+                        <br>
+                        ${p.method}
+                        • ${p.date}
+
+                    </div>
+
+                </div>
+
+            `).join("")
+
+            :
+
+            `
+            <div
+                style="
+                    text-align:center;
+                    color:#999;
+                    padding:30px
+                ">
+
+                ยังไม่มีประวัติการชำระเงิน
+
+            </div>
+            `
+        }
+
+    `;
+
+    openSheet("historySheet");
+
+}
+
+
+/* =====================================================
+ADMIN MENU
+===================================================== */
+
+function renderAdminMenu(){
+
+    document
+    .getElementById("adminContent")
+    .innerHTML = `
+
+        <div class="card">
+
+            <div
+                style="
+                    text-align:center;
+                    padding:12px
+                ">
+
+                <div
+                    style="
+                        width:70px;
+                        height:70px;
+                        border-radius:50%;
+                        background:var(--orange-soft);
+                        display:grid;
+                        place-items:center;
+                        margin:auto;
+                        font-size:34px
+                    ">
+
+                    👩🏻‍💼
+
+                </div>
+
+                <h2 style="margin-top:12px">
+                    ผู้ดูแลหอพัก
+                </h2>
+
+                <p
+                    style="
+                        color:#888;
+                        margin-top:5px
+                    ">
+
+                    Administrator
+
+                </p>
+
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    gap:9px
+                ">
+
+                <button
+                    class="btn btn-light"
+                    onclick="openMonthlySummary()">
+
+                    📊 สรุปรายรับ-รายจ่าย
+
+                </button>
+
+                <button
+                    class="btn btn-blue"
+                    onclick="openAdminRepairs()">
+
+                    🔧 จัดการงานซ่อม
+
+                </button>
+
+                <button
+                    class="btn btn-white"
+                    onclick="openHistory()">
+
+                    📚 ประวัติการชำระเงิน
+
+                </button>
+
+                <button
+                    class="btn btn-red"
+                    onclick="logout()">
+
+                    🚪 ออกจากระบบ
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+TENANT NAV
+===================================================== */
+
+function showTenantPage(page,button){
+
+    setActiveNav(button);
+
+    if(page === "home")
+        renderTenantHome();
+
+    if(page === "bill")
+        renderTenantBillPage();
+
+    if(page === "repair")
+        renderTenantRepair();
+
+    if(page === "profile")
+        renderTenantProfile();
+
+}
+
+
+/* =====================================================
+TENANT ROOM
+===================================================== */
+
+function getTenantRoom(){
+
+    return rooms.find(
+        room =>
+            room.room ===
+            currentUser.room
+    );
+
+}
+
+
+/* =====================================================
+TENANT HOME
+===================================================== */
+
+function renderTenantHome(){
+
+    const room =
+        getTenantRoom();
+
+    if(!room) return;
+
+    document
+    .getElementById("tenantHello")
+    .textContent =
+        "สวัสดี " +
+        room.tenant +
+        " 👋";
+
+    document
+    .getElementById("tenantRoomTitle")
+    .textContent =
+        "ห้อง " +
+        room.room;
+
+    document
+    .getElementById("tenantContent")
+    .innerHTML = `
+
+        <div class="tenant-balance">
+
+            <small>
+                ยอดค่าใช้จ่ายเดือนนี้
+            </small>
+
+            <div class="balance-value">
+
+                ${money(total(room))}
+
+            </div>
+
+            <div class="balance-status">
+
+                ${
+                    room.status === "paid"
+                    ? "✅ ชำระแล้ว"
+                    : "⏳ รอชำระ"
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <button
+                class="quick-button"
+                onclick="openTenantBill()">
+
+                <div class="icon">
+                    🧾
+                </div>
+
+                <span>
+                    ดูบิล
+                </span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="openRepairForTenant()">
+
+                <div class="icon">
+                    🔧
+                </div>
+
+                <span>
+                    แจ้งซ่อม
+                </span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="renderTenantProfile()">
+
+                <div class="icon">
+                    👤
+                </div>
+
+                <span>
+                    บัญชี
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div class="section-title">
+
+            <h2>
+                ค่าใช้จ่าย
+            </h2>
+
+            <span>
+                เดือนนี้
+            </span>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="cost-row">
+
+                <span>
+                    🏠 ค่าเช่า
+                </span>
+
+                <b>
+                    ${money(room.rent)}
+                </b>
+
+            </div>
+
+
+            <div class="cost-row">
+
+                <span>
+                    💧 ค่าน้ำ
+                </span>
+
+                <b>
+                    ${money(room.water)}
+                </b>
+
+            </div>
+
+
+            <div class="cost-row">
+
+                <span>
+                    ⚡ ค่าไฟ
+                </span>
+
+                <b>
+                    ${money(electric(room))}
+                </b>
+
+            </div>
+
+
+            <div class="cost-total">
+
+                <span>
+                    รวมทั้งหมด
+                </span>
+
+                <strong>
+                    ${money(total(room))}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                ⚡ มิเตอร์ไฟ
+            </h3>
+
+            <div class="cost-row">
+
+                <span>
+                    มิเตอร์ครั้งก่อน
+                </span>
+
+                <b>
+                    ${room.oldMeter}
+                </b>
+
+            </div>
+
+            <div class="cost-row">
+
+                <span>
+                    มิเตอร์ปัจจุบัน
+                </span>
+
+                <b>
+                    ${room.newMeter}
+                </b>
+
+            </div>
+
+            <div class="cost-row">
+
+                <span>
+                    ใช้ไฟทั้งหมด
+                </span>
+
+                <b>
+                    ${units(room)}
+                    หน่วย
+                </b>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+TENANT BILL
+===================================================== */
+
+function renderTenantBillPage(){
+
+    const room =
+        getTenantRoom();
+
+    const bill =
+        bills.find(
+            b =>
+                b.room === room.room &&
+                b.month === dateKey()
+        );
+
+    document
+    .getElementById("tenantContent")
+    .innerHTML = `
+
+        <div class="section-title">
+
+            <h2>
+                ใบแจ้งค่าเช่า
+            </h2>
+
+            <span>
+                กันยายน
+            </span>
+
+        </div>
+
+
+        ${
+            bill
+            ?
+            billHTML(bill,false)
+            :
+            `
+            <div class="info-card">
+
+                <div
+                    style="
+                        text-align:center;
+                        color:#999;
+                        padding:25px 0
+                    ">
+
+                    รอผู้ดูแลออกบิล
+
+                </div>
+
+            </div>
+            `
+        }
+
+    `;
+
+}
+
+
+function openTenantBill(){
+
+    const room =
+        getTenantRoom();
+
+    const bill =
+        bills.find(
+            b =>
+                b.room === room.room &&
+                b.month === dateKey()
+        );
+
+    document
+    .getElementById("billContent")
+    .innerHTML =
+        bill
+        ? billHTML(bill,false)
+        :
+        `
+        <div
+            style="
+                text-align:center;
+                color:#999;
+                padding:30px
+            ">
+
+            ผู้ดูแลยังไม่ได้ออกบิลเดือนนี้
+
+        </div>
+        `;
+
+    openSheet("billSheet");
+
+}
+
+
+/* =====================================================
+TENANT REPAIR
+===================================================== */
+
+function renderTenantRepair(){
+
+    const room =
+        getTenantRoom();
+
+    const roomRepairs =
+        repairs.filter(
+            r =>
+                r.room === room.room
+        );
+
+    document
+    .getElementById("tenantContent")
+    .innerHTML = `
+
+        <button
+            class="btn btn-primary"
+            style="width:100%"
+            onclick="openRepairForTenant()">
+
+            ＋ แจ้งซ่อมใหม่
+
+        </button>
+
+
+        <div class="section-title">
+
+            <h2>
+                รายการแจ้งซ่อม
+            </h2>
+
+        </div>
+
+
+        <div class="info-card">
+
+            ${
+                roomRepairs.length
+                ?
+                roomRepairs.map(
+                    repair => `
+
+                    <div class="repair-item">
+
+                        <div class="repair-icon">
+                            🔧
+                        </div>
+
+                        <div class="repair-detail">
+
+                            <div class="repair-title">
+
+                                ${repair.type}
+
+                            </div>
+
+                            <div class="repair-small">
+
+                                ${repair.detail}
+
+                            </div>
+
+                            <div style="margin-top:6px">
+
+                                <span class="
+                                    badge
+                                    ${
+                                        repair.status === "done"
+                                        ? "badge-done"
+                                        : "badge-repair"
+                                    }">
+
+                                    ${repairStatusText(
+                                        repair.status
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `).join("")
+
+                :
+
+                `
+                <div
+                    style="
+                        text-align:center;
+                        color:#999;
+                        padding:25px 0
+                    ">
+
+                    ยังไม่มีรายการแจ้งซ่อม
+
+                </div>
+                `
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+TENANT PROFILE
+===================================================== */
+
+function renderTenantProfile(){
+
+    const room =
+        getTenantRoom();
+
+    document
+    .getElementById("tenantContent")
+    .innerHTML = `
+
+        <div class="card">
+
+            <div
+                style="
+                    text-align:center;
+                    padding:15px
+                ">
+
+                <div
+                    style="
+                        width:74px;
+                        height:74px;
+                        border-radius:50%;
+                        background:var(--orange-soft);
+                        display:grid;
+                        place-items:center;
+                        font-size:34px;
+                        margin:auto
+                    ">
+
+                    👤
+
+                </div>
+
+                <h2 style="margin-top:12px">
+
+                    ${room.tenant}
+
+                </h2>
+
+                <p
+                    style="
+                        color:#888;
+                        margin-top:4px
+                    ">
+
+                    ผู้เช่าห้อง ${room.room}
+
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="cost-row">
+
+                    <span>
+                        Username
+                    </span>
+
+                    <b>
+                        ${currentUser.username}
+                    </b>
+
+                </div>
+
+
+                <div class="cost-row">
+
+                    <span>
+                        ห้องพัก
+                    </span>
+
+                    <b>
+                        ${room.room}
+                    </b>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-white"
+                style="width:100%"
+                onclick="logout()">
+
+                🚪 ออกจากระบบ
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+TENANT PREVIEW
+===================================================== */
+
+function tenantPreview(index){
+
+    const room =
+        rooms[index];
+
+    document
+    .getElementById("billContent")
+    .innerHTML = `
+
+        <div class="info-card">
+
+            <h3>
+                🛏️ ห้อง ${room.room}
+            </h3>
+
+            <div class="cost-row">
+
+                <span>
+                    ผู้เช่า
+                </span>
+
+                <b>
+                    ${room.tenant}
+                </b>
+
+            </div>
+
+            <div class="cost-row">
+
+                <span>
+                    ค่าเช่า
+                </span>
+
+                <b>
+                    ${money(room.rent)}
+                </b>
+
+            </div>
+
+            <div class="cost-row">
+
+                <span>
+                    ค่าน้ำ
+                </span>
+
+                <b>
+                    ${money(room.water)}
+                </b>
+
+            </div>
+
+            <div class="cost-row">
+
+                <span>
+                    ค่าไฟ
+                </span>
+
+                <b>
+                    ${money(electric(room))}
+                </b>
+
+            </div>
+
+            <div class="cost-total">
+
+                <span>
+                    ยอดรวม
+                </span>
+
+                <strong>
+                    ${money(total(room))}
+                </strong>
+
+            </div>
+
+        </div>
+
+    `;
+
+    openSheet("billSheet");
+
+}
+
+
+/* =====================================================
+SHEET
+===================================================== */
+
+function openSheet(id){
+
+    document
+    .getElementById(id)
+    .classList.add("show");
+
+}
+
+
+function closeSheet(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+document
+.querySelectorAll(".overlay")
+.forEach(overlay=>{
+
+    overlay.addEventListener(
+        "click",
+        event=>{
+
+            if(event.target === overlay){
+
+                overlay.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+START
+===================================================== */
+
+checkLogin();
 
 </script>
 
