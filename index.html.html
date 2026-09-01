@@ -1,0 +1,3700 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dorm Manager - บ้านพลอยระย้า</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,"Tahoma",sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#d9d9d9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    color:#333;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+.phone{
+    width:390px;
+    height:800px;
+
+    background:#fff8f2;
+
+    border:9px solid #222;
+    border-radius:45px;
+
+    overflow:hidden;
+    position:relative;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.3);
+}
+
+.notch{
+    position:absolute;
+
+    width:125px;
+    height:27px;
+
+    background:#222;
+
+    top:0;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border-radius:0 0 18px 18px;
+
+    z-index:999;
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginPage{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
+
+    background:#fff8f2;
+}
+
+.login-box{
+    width:100%;
+    text-align:center;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+
+    margin:0 auto 20px;
+
+    background:#f58220;
+
+    border-radius:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:45px;
+
+    box-shadow:0 8px 20px rgba(245,130,32,.3);
+}
+
+.login-box h1{
+    color:#e96f00;
+    font-size:27px;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#888;
+    margin-bottom:30px;
+}
+
+.form-group{
+    text-align:left;
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #ddd;
+    border-radius:13px;
+
+    background:white;
+
+    font-size:15px;
+
+    outline:none;
+}
+
+.form-group input:focus{
+    border-color:#f58220;
+}
+
+.login-button{
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+    border-radius:13px;
+
+    background:#f58220;
+
+    color:white;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.login-button:hover{
+    background:#df6e0c;
+}
+
+.login-info{
+    margin-top:18px;
+
+    color:#aaa;
+
+    font-size:12px;
+}
+
+
+/* =========================
+   MAIN APP
+========================= */
+
+#mainApp{
+    display:none;
+
+    width:100%;
+    height:100%;
+
+    overflow-y:auto;
+
+    padding-bottom:75px;
+
+    background:#fff8f2;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    background:#f58220;
+
+    color:white;
+
+    padding:38px 20px 20px;
+
+    border-radius:0 0 28px 28px;
+}
+
+.header-top{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+}
+
+.app-name{
+    font-size:19px;
+    font-weight:bold;
+}
+
+.profile-button{
+    width:40px;
+    height:40px;
+
+    border:none;
+    border-radius:50%;
+
+    background:white;
+
+    cursor:pointer;
+
+    font-size:19px;
+}
+
+.welcome{
+    margin-top:17px;
+}
+
+.welcome small{
+    opacity:.9;
+}
+
+.welcome h2{
+    margin-top:5px;
+
+    font-size:21px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    padding:18px;
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+}
+
+.card{
+    background:white;
+
+    padding:17px;
+
+    border-radius:18px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+.card-icon{
+    font-size:27px;
+
+    margin-bottom:8px;
+}
+
+.card-title{
+    color:#888;
+
+    font-size:12px;
+}
+
+.card-number{
+    color:#e96f00;
+
+    font-size:25px;
+    font-weight:bold;
+
+    margin-top:3px;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+    margin-top:23px;
+}
+
+.section-title{
+    font-size:19px;
+
+    margin-bottom:13px;
+}
+
+
+/* =========================
+   QUICK MENU
+========================= */
+
+.menu-grid{
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:10px;
+}
+
+.menu-item{
+    background:white;
+
+    border-radius:17px;
+
+    padding:14px 4px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+
+    transition:.2s;
+}
+
+.menu-item:hover{
+    transform:translateY(-3px);
+
+    background:#fff0e3;
+}
+
+.menu-icon{
+    font-size:26px;
+
+    margin-bottom:7px;
+}
+
+.menu-name{
+    font-size:11px;
+}
+
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+.notification{
+    margin-top:22px;
+
+    background:#fff0e3;
+
+    border-radius:18px;
+
+    padding:15px;
+}
+
+.notification-title{
+    color:#e96f00;
+
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+.notification p{
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.page-header h2{
+    font-size:20px;
+}
+
+.add-btn{
+    background:#f58220;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:9px 12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search{
+    width:100%;
+
+    padding:12px 14px;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
+    outline:none;
+}
+
+.search:focus{
+    border-color:#f58220;
+}
+
+
+/* =========================
+   ROOM
+========================= */
+
+.room-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.room-card{
+    background:white;
+
+    border-radius:16px;
+
+    padding:15px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.room-top{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:8px;
+}
+
+.room-number{
+    font-weight:bold;
+
+    font-size:18px;
+}
+
+.status{
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.status.available{
+    background:#e4f7e8;
+
+    color:#24913b;
+}
+
+.status.occupied{
+    background:#fff0dc;
+
+    color:#df7200;
+}
+
+.status.repair{
+    background:#ffe4e4;
+
+    color:#d83232;
+}
+
+.room-info{
+    font-size:12px;
+
+    color:#777;
+
+    line-height:1.7;
+}
+
+.card-actions{
+    display:flex;
+
+    gap:7px;
+
+    margin-top:10px;
+}
+
+.small-btn{
+    border:none;
+
+    border-radius:9px;
+
+    padding:7px 10px;
+
+    font-size:11px;
+
+    cursor:pointer;
+}
+
+.edit-btn{
+    background:#fff0df;
+
+    color:#d66b00;
+}
+
+.delete-btn{
+    background:#ffe5e5;
+
+    color:#d93232;
+}
+
+
+/* =========================
+   TENANT
+========================= */
+
+.tenant-card,
+.bill-card,
+.repair-card,
+.income-card{
+    background:white;
+
+    padding:15px;
+
+    border-radius:16px;
+
+    margin-bottom:10px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.tenant-name{
+    font-size:16px;
+
+    font-weight:bold;
+}
+
+.info-line{
+    font-size:12px;
+
+    color:#777;
+
+    margin-top:5px;
+}
+
+.paid{
+    color:#27933c;
+
+    font-weight:bold;
+}
+
+.unpaid{
+    color:#d83232;
+
+    font-weight:bold;
+}
+
+.pending{
+    color:#df7200;
+
+    font-weight:bold;
+}
+
+.done{
+    color:#27933c;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display:none;
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:800;
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
+    width:100%;
+
+    max-height:90%;
+
+    overflow-y:auto;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+}
+
+.modal-box h3{
+    margin-bottom:15px;
+
+    color:#e96f00;
+}
+
+.modal-group{
+    margin-bottom:12px;
+}
+
+.modal-group label{
+    display:block;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+}
+
+.modal-group input,
+.modal-group select,
+.modal-group textarea{
+    width:100%;
+
+    padding:11px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    outline:none;
+}
+
+.modal-group textarea{
+    min-height:80px;
+
+    resize:none;
+}
+
+.modal-actions{
+    display:flex;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.save-btn{
+    flex:1;
+
+    background:#f58220;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:12px;
+
+    cursor:pointer;
+}
+
+.cancel-btn{
+    flex:1;
+
+    background:#eee;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:12px;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   PROFILE MENU
+========================= */
+
+.profile-menu{
+    display:none;
+
+    position:absolute;
+
+    top:75px;
+
+    right:15px;
+
+    width:180px;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
+
+    z-index:700;
+}
+
+.profile-menu button{
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    background:white;
+
+    text-align:left;
+
+    cursor:pointer;
+}
+
+.profile-menu button:hover{
+    background:#fff2e8;
+}
+
+.profile-menu .logout{
+    color:#e53935;
+}
+
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom-nav{
+    position:absolute;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+
+    height:70px;
+
+    background:white;
+
+    border-top:1px solid #eee;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    align-items:center;
+
+    z-index:600;
+}
+
+.nav-item{
+    width:25%;
+
+    text-align:center;
+
+    color:#999;
+
+    font-size:10px;
+
+    cursor:pointer;
+}
+
+.nav-icon{
+    font-size:21px;
+
+    margin-bottom:4px;
+}
+
+.nav-item.active{
+    color:#f58220;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+
+    padding:35px 10px;
+
+    color:#999;
+
+    font-size:13px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:500px){
+
+    body{
+        padding:0;
+
+        background:#fff8f2;
+    }
+
+    .phone{
+        width:100vw;
+
+        height:100vh;
+
+        border:none;
+
+        border-radius:0;
+
+        box-shadow:none;
+    }
+
+    .notch{
+        display:none;
+    }
+
+    .bottom-nav{
+        position:fixed;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="phone">
+
+<div class="notch"></div>
+
+
+<!-- =====================================================
+LOGIN
+===================================================== -->
+
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">
+            🏠
+        </div>
+
+        <h1>
+            บ้านพลอยระย้า
+        </h1>
+
+        <p class="subtitle">
+            Dorm Manager
+        </p>
+
+
+        <div class="form-group">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="กรอก Username"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="กรอก Password"
+                onkeydown="if(event.key==='Enter') login()"
+            >
+
+        </div>
+
+
+        <button
+            class="login-button"
+            onclick="login()"
+        >
+            เข้าสู่ระบบ
+        </button>
+
+
+        <p class="login-info">
+            Dorm Manager • บ้านพลอยระย้า
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+MAIN APP
+===================================================== -->
+
+<div id="mainApp">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="header-top">
+
+        <div class="app-name">
+            🏠 บ้านพลอยระย้า
+        </div>
+
+        <button
+            class="profile-button"
+            onclick="toggleProfile()"
+        >
+            👤
+        </button>
+
+    </div>
+
+
+    <div class="welcome">
+
+        <small>
+            ยินดีต้อนรับกลับมา
+        </small>
+
+        <h2>
+            สวัสดี, Jirajet 👋
+        </h2>
+
+    </div>
+
+</div>
+
+
+<!-- PROFILE MENU -->
+
+<div
+    class="profile-menu"
+    id="profileMenu"
+>
+
+    <button onclick="openProfile()">
+        👤 โปรไฟล์
+    </button>
+
+    <button onclick="showSettings()">
+        ⚙️ ตั้งค่า
+    </button>
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        🚪 ออกจากระบบ
+    </button>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+
+<!-- =====================================================
+HOME
+===================================================== -->
+
+<div
+    class="page active"
+    id="homePage"
+>
+
+    <div class="summary">
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🏠
+            </div>
+
+            <div class="card-title">
+                ห้องทั้งหมด
+            </div>
+
+            <div
+                class="card-number"
+                id="totalRooms"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                👥
+            </div>
+
+            <div class="card-title">
+                ผู้พักอาศัย
+            </div>
+
+            <div
+                class="card-number"
+                id="totalTenants"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                💰
+            </div>
+
+            <div class="card-title">
+                รอชำระเงิน
+            </div>
+
+            <div
+                class="card-number"
+                id="unpaidBills"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🔧
+            </div>
+
+            <div class="card-title">
+                แจ้งซ่อม
+            </div>
+
+            <div
+                class="card-number"
+                id="pendingRepairs"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK MENU -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            เมนูลัด
+        </h2>
+
+
+        <div class="menu-grid">
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('rooms')"
+            >
+
+                <div class="menu-icon">
+                    🏠
+                </div>
+
+                <div class="menu-name">
+                    ห้องพัก
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('tenants')"
+            >
+
+                <div class="menu-icon">
+                    👥
+                </div>
+
+                <div class="menu-name">
+                    ผู้เช่า
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('bills')"
+            >
+
+                <div class="menu-icon">
+                    💰
+                </div>
+
+                <div class="menu-name">
+                    ค่าเช่า
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('repairs')"
+            >
+
+                <div class="menu-icon">
+                    🔧
+                </div>
+
+                <div class="menu-name">
+                    แจ้งซ่อม
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('income')"
+            >
+
+                <div class="menu-icon">
+                    📊
+                </div>
+
+                <div class="menu-name">
+                    รายรับ
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('reports')"
+            >
+
+                <div class="menu-icon">
+                    📄
+                </div>
+
+                <div class="menu-name">
+                    รายงาน
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showPage('notifications')"
+            >
+
+                <div class="menu-icon">
+                    🔔
+                </div>
+
+                <div class="menu-name">
+                    แจ้งเตือน
+                </div>
+
+            </div>
+
+
+            <div
+                class="menu-item"
+                onclick="showSettings()"
+            >
+
+                <div class="menu-icon">
+                    ⚙️
+                </div>
+
+                <div class="menu-name">
+                    ตั้งค่า
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTIFICATION -->
+
+    <div class="notification">
+
+        <div class="notification-title">
+            🔔 การแจ้งเตือน
+        </div>
+
+        <p id="homeNotification">
+            กำลังโหลดข้อมูล...
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+ROOMS
+===================================================== -->
+
+<div
+    class="page"
+    id="roomsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            🏠 ห้องพัก
+        </h2>
+
+        <button
+            class="add-btn"
+            onclick="openRoomModal()"
+        >
+            + เพิ่ม
+        </button>
+
+    </div>
+
+
+    <input
+        class="search"
+        id="roomSearch"
+        placeholder="🔍 ค้นหาเลขห้อง..."
+        oninput="renderRooms()"
+    >
+
+
+    <div
+        class="room-list"
+        id="roomList"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+TENANTS
+===================================================== -->
+
+<div
+    class="page"
+    id="tenantsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            👥 ผู้เช่า
+        </h2>
+
+        <button
+            class="add-btn"
+            onclick="openTenantModal()"
+        >
+            + เพิ่ม
+        </button>
+
+    </div>
+
+
+    <input
+        class="search"
+        id="tenantSearch"
+        placeholder="🔍 ค้นหาชื่อผู้เช่า..."
+        oninput="renderTenants()"
+    >
+
+
+    <div id="tenantList"></div>
+
+</div>
+
+
+<!-- =====================================================
+BILLS
+===================================================== -->
+
+<div
+    class="page"
+    id="billsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            💰 ค่าเช่า
+        </h2>
+
+        <button
+            class="add-btn"
+            onclick="openBillModal()"
+        >
+            + เพิ่ม
+        </button>
+
+    </div>
+
+
+    <div id="billList"></div>
+
+</div>
+
+
+<!-- =====================================================
+REPAIRS
+===================================================== -->
+
+<div
+    class="page"
+    id="repairsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            🔧 แจ้งซ่อม
+        </h2>
+
+        <button
+            class="add-btn"
+            onclick="openRepairModal()"
+        >
+            + เพิ่ม
+        </button>
+
+    </div>
+
+
+    <div id="repairList"></div>
+
+</div>
+
+
+<!-- =====================================================
+INCOME
+===================================================== -->
+
+<div
+    class="page"
+    id="incomePage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            📊 รายรับ
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            รายรับทั้งหมด
+        </div>
+
+        <div
+            class="card-number"
+            id="totalIncome"
+        >
+            ฿0
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div id="incomeList"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+REPORTS
+===================================================== -->
+
+<div
+    class="page"
+    id="reportsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            📄 รายงาน
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            สรุปข้อมูลหอพัก
+        </div>
+
+        <br>
+
+        <p id="reportText"></p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+NOTIFICATIONS
+===================================================== -->
+
+<div
+    class="page"
+    id="notificationsPage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            🔔 แจ้งเตือน
+        </h2>
+
+    </div>
+
+
+    <div id="notificationList"></div>
+
+</div>
+
+
+<!-- =====================================================
+PROFILE
+===================================================== -->
+
+<div
+    class="page"
+    id="profilePage"
+>
+
+    <div class="page-header">
+
+        <h2>
+            👤 โปรไฟล์
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            style="
+            font-size:45px;
+            text-align:center;
+            "
+        >
+            👤
+        </div>
+
+        <br>
+
+        <p>
+            <b>Username:</b> Jirajet
+        </p>
+
+        <br>
+
+        <p>
+            <b>ตำแหน่ง:</b> ผู้ดูแลหอพัก
+        </p>
+
+        <br>
+
+        <p>
+            <b>หอพัก:</b> บ้านพลอยระย้า
+        </p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+BOTTOM NAVIGATION
+===================================================== -->
+
+<div class="bottom-nav">
+
+
+    <div
+        class="nav-item active"
+        data-page="home"
+        onclick="showPage('home')"
+    >
+
+        <div class="nav-icon">
+            🏠
+        </div>
+
+        หน้าแรก
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        data-page="bills"
+        onclick="showPage('bills')"
+    >
+
+        <div class="nav-icon">
+            💰
+        </div>
+
+        การเงิน
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        data-page="notifications"
+        onclick="showPage('notifications')"
+    >
+
+        <div class="nav-icon">
+            🔔
+        </div>
+
+        แจ้งเตือน
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        data-page="profile"
+        onclick="showPage('profile')"
+    >
+
+        <div class="nav-icon">
+            👤
+        </div>
+
+        บัญชี
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+ROOM MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="roomModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            🏠 เพิ่มห้องพัก
+        </h3>
+
+
+        <div class="modal-group">
+
+            <label>
+                เลขห้อง
+            </label>
+
+            <input
+                id="roomNumber"
+                placeholder="เช่น 101"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                ชั้น
+            </label>
+
+            <input
+                id="roomFloor"
+                placeholder="เช่น 1"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                ค่าเช่าต่อเดือน
+            </label>
+
+            <input
+                type="number"
+                id="roomRent"
+                placeholder="เช่น 2800"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                สถานะ
+            </label>
+
+            <select id="roomStatus">
+
+                <option value="ว่าง">
+                    ว่าง
+                </option>
+
+                <option value="มีผู้เช่า">
+                    มีผู้เช่า
+                </option>
+
+                <option value="ซ่อม">
+                    ซ่อม
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal('roomModal')"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveRoom()"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+TENANT MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="tenantModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            👥 เพิ่มผู้เช่า
+        </h3>
+
+
+        <div class="modal-group">
+
+            <label>
+                ชื่อ-นามสกุล
+            </label>
+
+            <input
+                id="tenantName"
+                placeholder="ชื่อผู้เช่า"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                เลขห้อง
+            </label>
+
+            <input
+                id="tenantRoom"
+                placeholder="เช่น 101"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                เบอร์โทรศัพท์
+            </label>
+
+            <input
+                id="tenantPhone"
+                placeholder="08xxxxxxxx"
+            >
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal('tenantModal')"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveTenant()"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+BILL MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="billModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            💰 เพิ่มบิล
+        </h3>
+
+
+        <div class="modal-group">
+
+            <label>
+                เลขห้อง
+            </label>
+
+            <input
+                id="billRoom"
+                placeholder="เช่น 101"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                เดือน
+            </label>
+
+            <input
+                id="billMonth"
+                placeholder="เช่น สิงหาคม 2569"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                จำนวนเงิน
+            </label>
+
+            <input
+                type="number"
+                id="billAmount"
+                placeholder="เช่น 2800"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                สถานะ
+            </label>
+
+            <select id="billStatus">
+
+                <option value="ค้างชำระ">
+                    ค้างชำระ
+                </option>
+
+                <option value="ชำระแล้ว">
+                    ชำระแล้ว
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal('billModal')"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveBill()"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+REPAIR MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="repairModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            🔧 แจ้งซ่อม
+        </h3>
+
+
+        <div class="modal-group">
+
+            <label>
+                เลขห้อง
+            </label>
+
+            <input
+                id="repairRoom"
+                placeholder="เช่น 101"
+            >
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                รายละเอียด
+            </label>
+
+            <textarea
+                id="repairDetail"
+                placeholder="เช่น แอร์ไม่เย็น"
+            ></textarea>
+
+        </div>
+
+
+        <div class="modal-group">
+
+            <label>
+                สถานะ
+            </label>
+
+            <select id="repairStatus">
+
+                <option value="รอดำเนินการ">
+                    รอดำเนินการ
+                </option>
+
+                <option value="กำลังซ่อม">
+                    กำลังซ่อม
+                </option>
+
+                <option value="เสร็จแล้ว">
+                    เสร็จแล้ว
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal('repairModal')"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveRepair()"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+DATA
+===================================================== */
+
+let rooms =
+JSON.parse(
+    localStorage.getItem("rooms")
+) || [
+
+    {
+        id:1,
+        number:"101",
+        floor:"1",
+        rent:2800,
+        status:"มีผู้เช่า"
+    },
+
+    {
+        id:2,
+        number:"102",
+        floor:"1",
+        rent:2800,
+        status:"ว่าง"
+    },
+
+    {
+        id:3,
+        number:"103",
+        floor:"1",
+        rent:2800,
+        status:"มีผู้เช่า"
+    },
+
+    {
+        id:4,
+        number:"201",
+        floor:"2",
+        rent:3000,
+        status:"มีผู้เช่า"
+    }
+
+];
+
+
+let tenants =
+JSON.parse(
+    localStorage.getItem("tenants")
+) || [
+
+    {
+        id:1,
+        name:"สมชาย ใจดี",
+        room:"101",
+        phone:"0812345678"
+    },
+
+    {
+        id:2,
+        name:"สมหญิง รักดี",
+        room:"103",
+        phone:"0898765432"
+    },
+
+    {
+        id:3,
+        name:"กมลชนก สุขใจ",
+        room:"201",
+        phone:"0866666666"
+    }
+
+];
+
+
+let bills =
+JSON.parse(
+    localStorage.getItem("bills")
+) || [
+
+    {
+        id:1,
+        room:"101",
+        month:"สิงหาคม 2569",
+        amount:2800,
+        status:"ค้างชำระ"
+    },
+
+    {
+        id:2,
+        room:"103",
+        month:"สิงหาคม 2569",
+        amount:2800,
+        status:"ชำระแล้ว"
+    },
+
+    {
+        id:3,
+        room:"201",
+        month:"สิงหาคม 2569",
+        amount:3000,
+        status:"ค้างชำระ"
+    }
+
+];
+
+
+let repairs =
+JSON.parse(
+    localStorage.getItem("repairs")
+) || [
+
+    {
+        id:1,
+        room:"101",
+        detail:"แอร์ไม่เย็น",
+        status:"รอดำเนินการ"
+    },
+
+    {
+        id:2,
+        room:"103",
+        detail:"ไฟห้องน้ำเสีย",
+        status:"กำลังซ่อม"
+    }
+
+];
+
+
+/* =====================================================
+SAVE
+===================================================== */
+
+function saveData(){
+
+    localStorage.setItem(
+        "rooms",
+        JSON.stringify(rooms)
+    );
+
+    localStorage.setItem(
+        "tenants",
+        JSON.stringify(tenants)
+    );
+
+    localStorage.setItem(
+        "bills",
+        JSON.stringify(bills)
+    );
+
+    localStorage.setItem(
+        "repairs",
+        JSON.stringify(repairs)
+    );
+
+}
+
+
+/* =====================================================
+LOGIN
+===================================================== */
+
+function login(){
+
+    let username =
+        document
+        .getElementById("username")
+        .value
+        .trim();
+
+    let password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    if(
+        username === "Jirajet" &&
+        password === "8632"
+    ){
+
+        document
+        .getElementById("loginPage")
+        .style.display="none";
+
+
+        document
+        .getElementById("mainApp")
+        .style.display="block";
+
+
+        updateDashboard();
+
+        renderRooms();
+
+        renderTenants();
+
+        renderBills();
+
+        renderRepairs();
+
+        renderIncome();
+
+        renderNotifications();
+
+    }
+    else{
+
+        alert(
+            "Username หรือ Password ไม่ถูกต้อง"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+function logout(){
+
+    if(
+        confirm(
+            "ต้องการออกจากระบบใช่หรือไม่?"
+        )
+    ){
+
+        document
+        .getElementById("mainApp")
+        .style.display="none";
+
+
+        document
+        .getElementById("loginPage")
+        .style.display="flex";
+
+
+        document
+        .getElementById("username")
+        .value="";
+
+
+        document
+        .getElementById("password")
+        .value="";
+
+
+        document
+        .getElementById("profileMenu")
+        .style.display="none";
+
+    }
+
+}
+
+
+/* =====================================================
+PAGE
+===================================================== */
+
+function showPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        p=>p.classList.remove("active")
+    );
+
+
+    let target =
+        document.getElementById(
+            page+"Page"
+        );
+
+
+    if(target){
+
+        target.classList.add("active");
+
+    }
+
+
+    document
+    .querySelectorAll(".nav-item")
+    .forEach(
+        n=>n.classList.remove("active")
+    );
+
+
+    let nav =
+        document.querySelector(
+            '.nav-item[data-page="'+page+'"]'
+        );
+
+
+    if(nav){
+
+        nav.classList.add("active");
+
+    }
+
+
+    document
+    .getElementById("profileMenu")
+    .style.display="none";
+
+
+    if(page==="rooms")
+        renderRooms();
+
+    if(page==="tenants")
+        renderTenants();
+
+    if(page==="bills")
+        renderBills();
+
+    if(page==="repairs")
+        renderRepairs();
+
+    if(page==="income")
+        renderIncome();
+
+    if(page==="notifications")
+        renderNotifications();
+
+    if(page==="reports")
+        renderReport();
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+function toggleProfile(){
+
+    let menu =
+        document.getElementById(
+            "profileMenu"
+        );
+
+
+    menu.style.display =
+        menu.style.display==="block"
+        ? "none"
+        : "block";
+
+}
+
+
+function openProfile(){
+
+    toggleProfile();
+
+    showPage("profile");
+
+}
+
+
+function showSettings(){
+
+    toggleProfile();
+
+    alert(
+        "หน้าตั้งค่า สามารถพัฒนาต่อได้"
+    );
+
+}
+
+
+/* =====================================================
+DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+    document
+    .getElementById("totalRooms")
+    .textContent=rooms.length;
+
+
+    document
+    .getElementById("totalTenants")
+    .textContent=tenants.length;
+
+
+    document
+    .getElementById("unpaidBills")
+    .textContent=
+        bills.filter(
+            b=>b.status==="ค้างชำระ"
+        ).length;
+
+
+    document
+    .getElementById("pendingRepairs")
+    .textContent=
+        repairs.filter(
+            r=>r.status!=="เสร็จแล้ว"
+        ).length;
+
+
+    let unpaid =
+        bills.filter(
+            b=>b.status==="ค้างชำระ"
+        ).length;
+
+
+    let repair =
+        repairs.filter(
+            r=>r.status!=="เสร็จแล้ว"
+        ).length;
+
+
+    document
+    .getElementById(
+        "homeNotification"
+    )
+    .innerHTML=
+
+        "💰 มีบิลค้างชำระ "
+        + unpaid
+        + " รายการ<br>"
+        + "🔧 มีงานซ่อมค้าง "
+        + repair
+        + " รายการ";
+
+}
+
+
+/* =====================================================
+ROOM
+===================================================== */
+
+function openRoomModal(){
+
+    document
+    .getElementById("roomNumber")
+    .value="";
+
+
+    document
+    .getElementById("roomFloor")
+    .value="";
+
+
+    document
+    .getElementById("roomRent")
+    .value="";
+
+
+    document
+    .getElementById("roomStatus")
+    .value="ว่าง";
+
+
+    document
+    .getElementById("roomModal")
+    .classList.add("show");
+
+}
+
+
+function saveRoom(){
+
+    let number =
+        document
+        .getElementById("roomNumber")
+        .value
+        .trim();
+
+
+    let floor =
+        document
+        .getElementById("roomFloor")
+        .value
+        .trim();
+
+
+    let rent =
+        Number(
+            document
+            .getElementById("roomRent")
+            .value
+        );
+
+
+    let status =
+        document
+        .getElementById("roomStatus")
+        .value;
+
+
+    if(
+        !number ||
+        !floor ||
+        !rent
+    ){
+
+        alert(
+            "กรุณากรอกข้อมูลให้ครบ"
+        );
+
+        return;
+
+    }
+
+
+    rooms.push({
+
+        id:Date.now(),
+
+        number:number,
+
+        floor:floor,
+
+        rent:rent,
+
+        status:status
+
+    });
+
+
+    saveData();
+
+    closeModal("roomModal");
+
+    renderRooms();
+
+    updateDashboard();
+
+}
+
+
+function renderRooms(){
+
+    let list =
+        document.getElementById(
+            "roomList"
+        );
+
+
+    let search =
+        document
+        .getElementById("roomSearch")
+        ?.value
+        .toLowerCase()
+        || "";
+
+
+    let filtered =
+        rooms.filter(
+            r=>
+            r.number
+            .toLowerCase()
+            .includes(search)
+        );
+
+
+    if(filtered.length===0){
+
+        list.innerHTML=
+            '<div class="empty">ไม่พบข้อมูลห้องพัก</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        filtered.map(
+            r=>{
+
+                let statusClass =
+                    r.status==="ว่าง"
+                    ? "available"
+                    : r.status==="ซ่อม"
+                    ? "repair"
+                    : "occupied";
+
+
+                return `
+
+                <div class="room-card">
+
+                    <div class="room-top">
+
+                        <div class="room-number">
+                            ห้อง ${r.number}
+                        </div>
+
+                        <div class="status ${statusClass}">
+                            ${r.status}
+                        </div>
+
+                    </div>
+
+
+                    <div class="room-info">
+
+                        ชั้น ${r.floor}<br>
+
+                        ค่าเช่า
+                        ${formatMoney(r.rent)}
+                        บาท / เดือน
+
+                    </div>
+
+
+                    <div class="card-actions">
+
+                        <button
+                            class="small-btn edit-btn"
+                            onclick="changeRoomStatus(${r.id})"
+                        >
+                            เปลี่ยนสถานะ
+                        </button>
+
+                        <button
+                            class="small-btn delete-btn"
+                            onclick="deleteRoom(${r.id})"
+                        >
+                            ลบ
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+function changeRoomStatus(id){
+
+    let room =
+        rooms.find(
+            r=>r.id===id
+        );
+
+
+    if(!room) return;
+
+
+    let status =
+        prompt(
+            "กรอกสถานะ: ว่าง / มีผู้เช่า / ซ่อม",
+            room.status
+        );
+
+
+    if(
+        status==="ว่าง" ||
+        status==="มีผู้เช่า" ||
+        status==="ซ่อม"
+    ){
+
+        room.status=status;
+
+        saveData();
+
+        renderRooms();
+
+    }
+
+}
+
+
+function deleteRoom(id){
+
+    if(
+        confirm(
+            "ต้องการลบห้องนี้หรือไม่?"
+        )
+    ){
+
+        rooms =
+            rooms.filter(
+                r=>r.id!==id
+            );
+
+
+        saveData();
+
+        renderRooms();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* =====================================================
+TENANT
+===================================================== */
+
+function openTenantModal(){
+
+    document
+    .getElementById("tenantName")
+    .value="";
+
+
+    document
+    .getElementById("tenantRoom")
+    .value="";
+
+
+    document
+    .getElementById("tenantPhone")
+    .value="";
+
+
+    document
+    .getElementById("tenantModal")
+    .classList.add("show");
+
+}
+
+
+function saveTenant(){
+
+    let name =
+        document
+        .getElementById("tenantName")
+        .value
+        .trim();
+
+
+    let room =
+        document
+        .getElementById("tenantRoom")
+        .value
+        .trim();
+
+
+    let phone =
+        document
+        .getElementById("tenantPhone")
+        .value
+        .trim();
+
+
+    if(
+        !name ||
+        !room ||
+        !phone
+    ){
+
+        alert(
+            "กรุณากรอกข้อมูลให้ครบ"
+        );
+
+        return;
+
+    }
+
+
+    tenants.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        room:room,
+
+        phone:phone
+
+    });
+
+
+    saveData();
+
+    closeModal("tenantModal");
+
+    renderTenants();
+
+    updateDashboard();
+
+}
+
+
+function renderTenants(){
+
+    let list =
+        document.getElementById(
+            "tenantList"
+        );
+
+
+    let search =
+        document
+        .getElementById("tenantSearch")
+        ?.value
+        .toLowerCase()
+        || "";
+
+
+    let filtered =
+        tenants.filter(
+            t=>
+            t.name
+            .toLowerCase()
+            .includes(search)
+        );
+
+
+    if(filtered.length===0){
+
+        list.innerHTML=
+            '<div class="empty">ยังไม่มีข้อมูลผู้เช่า</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        filtered.map(
+            t=>`
+
+            <div class="tenant-card">
+
+                <div class="tenant-name">
+                    👤 ${t.name}
+                </div>
+
+                <div class="info-line">
+                    🏠 ห้อง ${t.room}
+                </div>
+
+                <div class="info-line">
+                    📞 ${t.phone}
+                </div>
+
+                <div class="card-actions">
+
+                    <button
+                        class="small-btn delete-btn"
+                        onclick="deleteTenant(${t.id})"
+                    >
+                        ลบข้อมูล
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+function deleteTenant(id){
+
+    if(
+        confirm(
+            "ต้องการลบผู้เช่านี้หรือไม่?"
+        )
+    ){
+
+        tenants =
+            tenants.filter(
+                t=>t.id!==id
+            );
+
+
+        saveData();
+
+        renderTenants();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* =====================================================
+BILLS
+===================================================== */
+
+function openBillModal(){
+
+    document
+    .getElementById("billRoom")
+    .value="";
+
+
+    document
+    .getElementById("billMonth")
+    .value="";
+
+
+    document
+    .getElementById("billAmount")
+    .value="";
+
+
+    document
+    .getElementById("billStatus")
+    .value="ค้างชำระ";
+
+
+    document
+    .getElementById("billModal")
+    .classList.add("show");
+
+}
+
+
+function saveBill(){
+
+    let room =
+        document
+        .getElementById("billRoom")
+        .value
+        .trim();
+
+
+    let month =
+        document
+        .getElementById("billMonth")
+        .value
+        .trim();
+
+
+    let amount =
+        Number(
+            document
+            .getElementById("billAmount")
+            .value
+        );
+
+
+    let status =
+        document
+        .getElementById("billStatus")
+        .value;
+
+
+    if(
+        !room ||
+        !month ||
+        !amount
+    ){
+
+        alert(
+            "กรุณากรอกข้อมูลให้ครบ"
+        );
+
+        return;
+
+    }
+
+
+    bills.push({
+
+        id:Date.now(),
+
+        room:room,
+
+        month:month,
+
+        amount:amount,
+
+        status:status
+
+    });
+
+
+    saveData();
+
+    closeModal("billModal");
+
+    renderBills();
+
+    updateDashboard();
+
+    renderIncome();
+
+}
+
+
+function renderBills(){
+
+    let list =
+        document.getElementById(
+            "billList"
+        );
+
+
+    if(bills.length===0){
+
+        list.innerHTML=
+            '<div class="empty">ยังไม่มีข้อมูลบิล</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        bills.map(
+            b=>`
+
+            <div class="bill-card">
+
+                <div class="room-number">
+                    🏠 ห้อง ${b.room}
+                </div>
+
+                <div class="info-line">
+                    เดือน ${b.month}
+                </div>
+
+                <div class="info-line">
+
+                    จำนวน
+
+                    <b>
+                        ${formatMoney(b.amount)}
+                        บาท
+                    </b>
+
+                </div>
+
+                <div class="info-line">
+
+                    สถานะ:
+
+                    <span class="${
+                        b.status==="ชำระแล้ว"
+                        ? "paid"
+                        : "unpaid"
+                    }">
+
+                        ${b.status}
+
+                    </span>
+
+                </div>
+
+                <div class="card-actions">
+
+                    ${
+                        b.status==="ค้างชำระ"
+
+                        ?
+
+                        `<button
+                            class="small-btn edit-btn"
+                            onclick="markPaid(${b.id})"
+                        >
+                            ✓ ชำระแล้ว
+                        </button>`
+
+                        :
+
+                        ""
+
+                    }
+
+
+                    <button
+                        class="small-btn delete-btn"
+                        onclick="deleteBill(${b.id})"
+                    >
+                        ลบ
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+function markPaid(id){
+
+    let bill =
+        bills.find(
+            b=>b.id===id
+        );
+
+
+    if(bill){
+
+        bill.status="ชำระแล้ว";
+
+        saveData();
+
+        renderBills();
+
+        updateDashboard();
+
+        renderIncome();
+
+        renderNotifications();
+
+    }
+
+}
+
+
+function deleteBill(id){
+
+    if(
+        confirm(
+            "ต้องการลบบิลนี้หรือไม่?"
+        )
+    ){
+
+        bills =
+            bills.filter(
+                b=>b.id!==id
+            );
+
+
+        saveData();
+
+        renderBills();
+
+        updateDashboard();
+
+        renderIncome();
+
+        renderNotifications();
+
+    }
+
+}
+
+
+/* =====================================================
+REPAIR
+===================================================== */
+
+function openRepairModal(){
+
+    document
+    .getElementById("repairRoom")
+    .value="";
+
+
+    document
+    .getElementById("repairDetail")
+    .value="";
+
+
+    document
+    .getElementById("repairStatus")
+    .value="รอดำเนินการ";
+
+
+    document
+    .getElementById("repairModal")
+    .classList.add("show");
+
+}
+
+
+function saveRepair(){
+
+    let room =
+        document
+        .getElementById("repairRoom")
+        .value
+        .trim();
+
+
+    let detail =
+        document
+        .getElementById("repairDetail")
+        .value
+        .trim();
+
+
+    let status =
+        document
+        .getElementById("repairStatus")
+        .value;
+
+
+    if(
+        !room ||
+        !detail
+    ){
+
+        alert(
+            "กรุณากรอกข้อมูลให้ครบ"
+        );
+
+        return;
+
+    }
+
+
+    repairs.push({
+
+        id:Date.now(),
+
+        room:room,
+
+        detail:detail,
+
+        status:status
+
+    });
+
+
+    saveData();
+
+    closeModal("repairModal");
+
+    renderRepairs();
+
+    updateDashboard();
+
+    renderNotifications();
+
+}
+
+
+function renderRepairs(){
+
+    let list =
+        document.getElementById(
+            "repairList"
+        );
+
+
+    if(repairs.length===0){
+
+        list.innerHTML=
+            '<div class="empty">ไม่มีรายการแจ้งซ่อม</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        repairs.map(
+            r=>`
+
+            <div class="repair-card">
+
+                <div class="room-number">
+                    🔧 ห้อง ${r.room}
+                </div>
+
+                <div class="info-line">
+                    ${r.detail}
+                </div>
+
+                <div class="info-line">
+
+                    สถานะ:
+
+                    <span class="${
+                        r.status==="เสร็จแล้ว"
+                        ? "done"
+                        : "pending"
+                    }">
+
+                        ${r.status}
+
+                    </span>
+
+                </div>
+
+                <div class="card-actions">
+
+                    ${
+                        r.status!=="เสร็จแล้ว"
+
+                        ?
+
+                        `<button
+                            class="small-btn edit-btn"
+                            onclick="completeRepair(${r.id})"
+                        >
+                            ✓ เสร็จแล้ว
+                        </button>`
+
+                        :
+
+                        ""
+
+                    }
+
+
+                    <button
+                        class="small-btn delete-btn"
+                        onclick="deleteRepair(${r.id})"
+                    >
+                        ลบ
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+function completeRepair(id){
+
+    let repair =
+        repairs.find(
+            r=>r.id===id
+        );
+
+
+    if(repair){
+
+        repair.status="เสร็จแล้ว";
+
+        saveData();
+
+        renderRepairs();
+
+        updateDashboard();
+
+        renderNotifications();
+
+    }
+
+}
+
+
+function deleteRepair(id){
+
+    if(
+        confirm(
+            "ต้องการลบรายการแจ้งซ่อมหรือไม่?"
+        )
+    ){
+
+        repairs =
+            repairs.filter(
+                r=>r.id!==id
+            );
+
+
+        saveData();
+
+        renderRepairs();
+
+        updateDashboard();
+
+        renderNotifications();
+
+    }
+
+}
+
+
+/* =====================================================
+INCOME
+===================================================== */
+
+function renderIncome(){
+
+    let paidBills =
+        bills.filter(
+            b=>b.status==="ชำระแล้ว"
+        );
+
+
+    let total =
+        paidBills.reduce(
+            (sum,b)=>
+                sum+Number(b.amount),
+            0
+        );
+
+
+    document
+    .getElementById("totalIncome")
+    .textContent=
+        "฿"+formatMoney(total);
+
+
+    let list =
+        document.getElementById(
+            "incomeList"
+        );
+
+
+    if(paidBills.length===0){
+
+        list.innerHTML=
+            '<div class="empty">ยังไม่มีรายรับ</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        paidBills.map(
+            b=>`
+
+            <div class="income-card">
+
+                <b>
+                    ห้อง ${b.room}
+                </b>
+
+                <div class="info-line">
+                    ${b.month}
+                </div>
+
+                <div class="info-line paid">
+                    + ${formatMoney(b.amount)}
+                    บาท
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+NOTIFICATIONS
+===================================================== */
+
+function renderNotifications(){
+
+    let list =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    let html="";
+
+
+    bills
+    .filter(
+        b=>b.status==="ค้างชำระ"
+    )
+    .forEach(
+        b=>{
+
+            html+=`
+
+            <div class="notification">
+
+                <div class="notification-title">
+                    💰 ค้างชำระ
+                </div>
+
+                <p>
+                    ห้อง ${b.room}
+                    ยังไม่ได้ชำระ
+                    ${formatMoney(b.amount)}
+                    บาท
+                </p>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    repairs
+    .filter(
+        r=>r.status!=="เสร็จแล้ว"
+    )
+    .forEach(
+        r=>{
+
+            html+=`
+
+            <div class="notification">
+
+                <div class="notification-title">
+                    🔧 แจ้งซ่อม
+                </div>
+
+                <p>
+                    ห้อง ${r.room} :
+                    ${r.detail}
+                </p>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    if(!html){
+
+        html=
+            '<div class="empty">ไม่มีการแจ้งเตือน</div>';
+
+    }
+
+
+    list.innerHTML=html;
+
+}
+
+
+/* =====================================================
+REPORT
+===================================================== */
+
+function renderReport(){
+
+    let occupied =
+        rooms.filter(
+            r=>r.status==="มีผู้เช่า"
+        ).length;
+
+
+    let available =
+        rooms.filter(
+            r=>r.status==="ว่าง"
+        ).length;
+
+
+    let repair =
+        rooms.filter(
+            r=>r.status==="ซ่อม"
+        ).length;
+
+
+    let unpaid =
+        bills.filter(
+            b=>b.status==="ค้างชำระ"
+        ).length;
+
+
+    document
+    .getElementById("reportText")
+    .innerHTML=`
+
+        🏠 ห้องทั้งหมด:
+        <b>${rooms.length}</b> ห้อง
+
+        <br><br>
+
+        🟠 มีผู้เช่า:
+        <b>${occupied}</b> ห้อง
+
+        <br><br>
+
+        🟢 ห้องว่าง:
+        <b>${available}</b> ห้อง
+
+        <br><br>
+
+        🔧 ห้องซ่อม:
+        <b>${repair}</b> ห้อง
+
+        <br><br>
+
+        💰 บิลค้างชำระ:
+        <b>${unpaid}</b> รายการ
+
+        <br><br>
+
+        👥 ผู้เช่า:
+        <b>${tenants.length}</b> คน
+
+    `;
+
+}
+
+
+/* =====================================================
+MODAL
+===================================================== */
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+FORMAT MONEY
+===================================================== */
+
+function formatMoney(number){
+
+    return Number(number)
+        .toLocaleString("th-TH");
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
